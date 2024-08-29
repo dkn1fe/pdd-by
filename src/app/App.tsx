@@ -5,7 +5,7 @@ export const App = () => {
 
   return (
     <div className="flex-1">
-    <ChoosePage/>
+      <ChoosePage />
     </div>
   )
 }
