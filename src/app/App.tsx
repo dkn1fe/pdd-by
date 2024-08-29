@@ -1,11 +1,12 @@
-import { LoadingAdvice } from '../features/loading-advice/index'
+import { ChoosePage } from "../pages/ChoosePage"
+
 
 export const App = () => {
 
   return (
-    <>
-      <LoadingAdvice/>
-    </>
+    <div className="flex-1">
+    <ChoosePage/>
+    </div>
   )
 }
 
