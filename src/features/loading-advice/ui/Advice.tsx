@@ -16,3 +16,4 @@ export const Advice = () => {
         </div>
     );
 }
+
