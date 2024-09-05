@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import { modes } from "../../../shared/utils/modes";
+import { FC, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store/store";
 import { handleChooseMode } from "../../../app/store/biletSlice";
 
-export const Modes = () => {
+interface ModesProps {
+    modes: any[],
+    title: string
+}
+
+export const Modes: FC<ModesProps> = ({ modes, title }) => {
     const [activeMode, setActiveMode] = useState(1);
     const modesElem = useRef<{ [key: number]: HTMLDivElement | null }>({});
     const navigate = useNavigate();
@@ -22,7 +26,7 @@ export const Modes = () => {
             const selectedItem = modes.find(item => item.id === activeMode);
             if (selectedItem) {
                 navigate(selectedItem.link);
-                dispatch(handleChooseMode(selectedItem.title)); 
+                dispatch(handleChooseMode(selectedItem.title));
             }
         }
     };
@@ -45,15 +49,17 @@ export const Modes = () => {
                 <div
                     key={item.id}
                     onClick={() => {
-                        setActiveMode(item.id); 
+                        setActiveMode(item.id);
                     }}
                     onKeyDown={(e) => handleKeyPress(e)}
                     tabIndex={0}
                     autoFocus={item.id === 1}
                     ref={el => (modesElem.current[item.id] = el)}
                     className={`flex flex-col m-auto justify-center pl-16 pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
-                        ${item.id === 5 ? 'mt-10' : 'mt-2'} 
-                        ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`}
+                        ${title.slice(0, 1) === 'В' && item.id === 5 ? 'mt-10' : 'mt-2'} 
+                        ${title.slice(0,1) === 'Т' && 'pl-12 pt-5'}
+                        ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`
+                    }
                 >
                     <h3 className={`text-left text-2xl ${activeMode === item.id ? 'text-black' : 'text-white'}`}>
                         {item.title}
