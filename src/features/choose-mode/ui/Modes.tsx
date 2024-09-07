@@ -44,7 +44,7 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
     }, [activeMode]);
 
     return (
-        <div className="w-full h-[435px] mt-2 bg-[#0b83e5]">
+        <div className={`w-full ${title.slice(0,1) === 'Т' ? 'h-[420px]' : 'h-[435px]'} mt-2 bg-[#0578cc]`}>
             {modes.map(item => (
                 <div
                     key={item.id}
@@ -55,9 +55,9 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
                     tabIndex={0}
                     autoFocus={item.id === 1}
                     ref={el => (modesElem.current[item.id] = el)}
-                    className={`flex flex-col m-auto justify-center pl-16 pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
+                    className={`flex flex-col m-auto justify-center pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
                         ${title.slice(0, 1) === 'В' && item.id === 5 ? 'mt-10' : 'mt-2'} 
-                        ${title.slice(0,1) === 'Т' && 'pl-12 pt-5'}
+                        ${title.slice(0,1) === 'Т' ? 'pl-10 pt-4' : 'pl-16 '}
                         ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`
                     }
                 >

@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import loading from '../../../entities/loading-advice/loading.png';
 import { Advice } from './Advice';
 import { Loading } from './Loading';
+import { Footer } from '../../../widgets/footer/Footer';
 
-export const LoadingAdvice = () => {
-    const [isOpen, setIsOpen] = useState(true)
+interface LoadingAdviceProps{
+    setIsOpen:(open:boolean) => void
+}
+
+export const LoadingAdvice:FC<LoadingAdviceProps> = ({setIsOpen}) => {
     let intervalOpen = useRef<any>(null);
 
 
@@ -20,7 +24,6 @@ export const LoadingAdvice = () => {
 
     return (
         <>
-            {isOpen &&
                 <div className="max-w-[800px] m-auto">
                     <div className="flex flex-col justify-center items-center pt-32">
                         <div className="relative">
@@ -38,7 +41,6 @@ export const LoadingAdvice = () => {
                         <Advice />
                     </div>
                 </div>
-            }
         </>
     );
 }

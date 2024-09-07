@@ -7,42 +7,47 @@ import { handleChooseMode } from "../../../app/store/biletSlice"
 export const Keyboard = () => {
     const { choosedMode } = useSelector((state: RootState) => state.biletSlice)
     const [active, setActive] = useState(true)
-    let intervalActive = useRef(null)
+    const intervalActive = useRef<NodeJS.Timeout | null>(null) 
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
-    
- 
+    console.log(choosedMode.slice(0,1))
 
+    useEffect(() => {
+        const handleKeydown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                navigate('/')
+                dispatch(handleChooseMode('Выберите режим')) 
+            }
+        }
 
-    window.addEventListener('keydown',(e)=>{
-       if(e.key === 'Escape'){
-         navigate('/')
-         dispatch(handleChooseMode(''))
-       }
-    })
+        window.addEventListener('keydown', handleKeydown)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeydown)
+        }
+    }, [dispatch, navigate])
 
     useEffect(() => {
         if (active) {
-            intervalActive = setInterval(() => {
+            intervalActive.current = setInterval(() => {
                 setActive(false)
             }, 1500)
-        }
-
-        if (!active) {
-            intervalActive = setInterval(() => {
+        } else {
+            intervalActive.current = setInterval(() => {
                 setActive(true)
             }, 300)
         }
 
-
         return () => {
-            clearInterval(intervalActive)
+            if (intervalActive.current) {
+                clearInterval(intervalActive.current)
+            }
         }
     }, [active])
 
     return (
         <div className="w-full h-[85px] bg-[red]">
-            <div className={`flex justify-center ${choosedMode.slice(0,1) === 'Т' && 'pt-4'} pt-7 gap-5 items-center`}>
+            <div className={`flex justify-center ${choosedMode.slice(0, 1) === 'Т' ? 'pt-4' : 'pt-7'} gap-5 items-center`}>
                 <div className="flex gap-5 items-center">
                     <span className={`font-bold text-xl text-white ${!active && 'opacity-0'}`}>↑↓</span>
                     <span className="text-white">-</span>
@@ -55,7 +60,7 @@ export const Keyboard = () => {
                 </div>
             </div>
             {choosedMode.slice(0, 1) === 'Т' && (
-                <div className="flex items-center pt-1 gap-5 justify-center">
+                <div className="flex items-center -pt-3 gap-5 justify-center">
                     <span className={`font-bold text-2xl text-white ${!active && 'opacity-0'}`}>ESC</span>
                     <span className="text-white">-</span>
                     <span className="text-white">НАЗАД</span>
