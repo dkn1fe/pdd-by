@@ -10,7 +10,6 @@ export const Keyboard = () => {
     const intervalActive = useRef<NodeJS.Timeout | null>(null) 
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
-    console.log(choosedMode.slice(0,1))
 
     useEffect(() => {
         const handleKeydown = (e: KeyboardEvent) => {
@@ -63,7 +62,7 @@ export const Keyboard = () => {
                 <div className="flex items-center -pt-3 gap-5 justify-center">
                     <span className={`font-bold text-2xl text-white ${!active && 'opacity-0'}`}>ESC</span>
                     <span className="text-white">-</span>
-                    <span className="text-white">НАЗАД</span>
+                    <span className="text-white">ВЕРНУТЬСЯ НАЗАД</span>
                 </div>
             )}
         </div>
