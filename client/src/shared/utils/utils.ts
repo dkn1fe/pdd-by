@@ -1,5 +1,6 @@
+import { useSelector } from "react-redux";
 import { onHandleActiveQuestion } from "../../app/store/biletSlice";
-import { AppDispatch } from "../../app/store/store";
+import { AppDispatch, RootState } from "../../app/store/store";
 
 export const getLastOrFirst = (
     questions: any[],
@@ -36,3 +37,23 @@ export const getLastOrFirst = (
         dispatch(onHandleActiveQuestion(resultArray[0]));
     }
 };
+
+
+export const onGetBilet = (mode: string, questions: any[]) => { 
+    let filteredQuestions = [];
+    switch (true) {
+        case mode.slice(0, 1) === 'Г': 
+            filteredQuestions = questions.filter(item => item.glava === mode); 
+            return filteredQuestions;
+
+        case mode === 'Тренировка по случайному билету' || mode === 'Контроль по случайному билету':
+            filteredQuestions = [...questions]
+                .sort(() => Math.random() - 0.5) 
+                .slice(0, 10)                   
+                .sort((a, b) => a.id - b.id);   
+            return filteredQuestions;
+
+        default:
+            return [];
+    }
+}

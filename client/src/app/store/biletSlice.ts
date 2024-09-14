@@ -1,10 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { onGetQuestions } from "../../shared/api/questionsApi";
 
-const initialState = {
+interface InitialStateType{
+   choosedMode:string,
+   activeQuestions:number,
+   writeQuestions:number[],
+   dontWriteQuestions:number[]
+   questions:any[]
+   statusQuestions:'idle' | 'loading' 
+}
+
+const initialState:InitialStateType = {
     choosedMode:'',
-    activeQuestions:1,
+    activeQuestions:0,
     writeQuestions:[],
-    dontWriteQuestions:[]
+    dontWriteQuestions:[],
+    questions:[],
+    statusQuestions:'idle'
 }
 
 export const biletSlice = createSlice({
@@ -23,6 +35,15 @@ export const biletSlice = createSlice({
       onHandleDontWriteQuestions:(state,action)=>{
         state.dontWriteQuestions = [...state.dontWriteQuestions,action.payload]
       }
+    },
+    extraReducers:(builder)=>{
+      builder.addCase(onGetQuestions.pending,(state)=>{
+        state.statusQuestions = 'loading'
+      })
+       builder.addCase(onGetQuestions.fulfilled,(state,action)=>{
+        state.questions = action.payload
+        state.statusQuestions = 'idle'
+       })
     }
 })
 

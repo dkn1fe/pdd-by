@@ -1,18 +1,33 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Keyboard } from "./Keyboard";
 import { Questions } from "./Questions";
 import { QuestionsList } from "./QuestionsList";
 import { Timer } from "./Timer";
-import { RootState } from "../../../app/store/store";
+import { AppDispatch, RootState } from "../../../app/store/store";
 import { useEffect, useState } from "react";
 import { Result } from "./Result";
-
+import { onGetQuestions } from "../../../shared/api/questionsApi";
+import { onGetBilet } from "../../../shared/utils/utils";
 
 export const Bilet = () => {
 
-    const { choosedMode, writeQuestions, dontWriteQuestions } = useSelector((state: RootState) => state.biletSlice)
+    const { choosedMode, writeQuestions, dontWriteQuestions, questions } = useSelector((state: RootState) => state.biletSlice)
     const [openResult, setOpenResult] = useState(false)
     const [resultType, setResultType] = useState('')
+    const dispatch = useDispatch<AppDispatch>()
+    const [questionsForBilet, setQuestionForBilet] = useState<any[]>([])
+    
+
+    useEffect(() => {
+        dispatch(onGetQuestions());
+    }, [dispatch]);
+    
+    useEffect(() => {
+        if (choosedMode && questions.length > 0) {
+            setQuestionForBilet(onGetBilet(choosedMode, questions));
+        }
+    }, [choosedMode, questions]);
+    
 
     useEffect(() => {
         if (writeQuestions.length === 9 && dontWriteQuestions.length === 1) {
@@ -41,7 +56,7 @@ export const Bilet = () => {
                             <QuestionsList />
                         </div>
                         <div className="w-full  overflowY-auto h-[625px] bg-[white]">
-                            <Questions />
+                            <Questions questions={questionsForBilet} />
                         </div>
                         <div className="w-full h-[50px] bg-gray-200">
                             <Keyboard />
