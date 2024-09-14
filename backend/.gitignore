@@ -1,4 +1,1 @@
-go.mod
- go.sum
-
-img/**/*.jpeg
+/node_modules
