@@ -4,9 +4,11 @@ import { FC } from "react"
 interface StatisticProps {
     write: number[],
     unWrite: number[]
+    choosedMode?:string | undefined
+    questionLength?:number
 }
 
-export const Statistic: FC<StatisticProps> = ({ write, unWrite }) => {
+export const Statistic: FC<StatisticProps> = ({ write, unWrite,choosedMode,questionLength}) => {
     return (
         <div className="flex mt-10 flex-col">
             <div className="border-b w-[300px] py-2 border-black">
@@ -19,7 +21,7 @@ export const Statistic: FC<StatisticProps> = ({ write, unWrite }) => {
                     <h3>Количество неправильных ответов:</h3>
                 </div>
                 <div className="flex text-lg flex-col">
-                    <span>10</span>
+                    <span>{choosedMode && choosedMode.slice(0,1) === 'Г' ? questionLength : 10}</span>
                     <span className="text-[green]">{write.length}</span>
                     <span className="text-[red]">{unWrite.length}</span>
                 </div>

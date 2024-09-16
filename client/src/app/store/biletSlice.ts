@@ -34,6 +34,10 @@ export const biletSlice = createSlice({
       },
       onHandleDontWriteQuestions:(state,action)=>{
         state.dontWriteQuestions = [...state.dontWriteQuestions,action.payload]
+      },
+      clearQuestions:(state)=>{
+        state.writeQuestions = []
+        state.dontWriteQuestions = []
       }
     },
     extraReducers:(builder)=>{
@@ -47,5 +51,5 @@ export const biletSlice = createSlice({
     }
 })
 
-export const { handleChooseMode,onHandleActiveQuestion,onHandleWriteQuestions,onHandleDontWriteQuestions} = biletSlice.actions
+export const { handleChooseMode,onHandleActiveQuestion,onHandleWriteQuestions,onHandleDontWriteQuestions,clearQuestions} = biletSlice.actions
 export default biletSlice.reducer

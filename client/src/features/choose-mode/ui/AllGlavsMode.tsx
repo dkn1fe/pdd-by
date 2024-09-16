@@ -5,7 +5,7 @@ import { HelpKeyboard } from "../../help-keyboard"
 
 export const AllGlavsMode = () => {
     const [activeMode, setActiveMode] = useState(1)
-    console.log(activeMode)
+    
     return (
         <div className="max-w-[1200px] m-auto flex justify-between mt-20">
             <div className="w-[400px] h-[800px] bg-white">

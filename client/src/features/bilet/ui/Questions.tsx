@@ -9,19 +9,23 @@ interface QuestionsProps {
 }
 
 export const Questions: FC<QuestionsProps> = ({ questions }) => {
-    const { activeQuestions, writeQuestions, dontWriteQuestions, statusQuestions } = useSelector((state: RootState) => state.biletSlice);
+    const { activeQuestions, writeQuestions, dontWriteQuestions, statusQuestions, choosedMode } = useSelector((state: RootState) => state.biletSlice);
     const [activeAnswer, setActiveAnswer] = useState('');
     const [showAnswer, setShowAnswer] = useState(false);
     const [isResultDisplayed, setIsResultDisplayed] = useState(false);
-    questions[10] = questions[0]
-
     const dispatch = useDispatch<AppDispatch>();
+
+
+    if (choosedMode.slice(0, 1) !== 'Г') {
+        questions[10] = questions[0]
+    }
+
 
     const currentQuestion = questions[activeQuestions];
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
         const key = e.key;
-
+    
         if (!isResultDisplayed) {
             if (key >= '1' && key <= currentQuestion?.options.length.toString()) {
                 setActiveAnswer(key);
@@ -31,11 +35,21 @@ export const Questions: FC<QuestionsProps> = ({ questions }) => {
                 setShowAnswer(false);
             } else if (key === 'Enter' && activeAnswer !== '') {
                 setShowAnswer(true);
-                setIsResultDisplayed(true);
-                if (Number(activeAnswer) === currentQuestion.answer) {
-                    dispatch(onHandleWriteQuestions(activeQuestions));
+    
+                if (choosedMode.slice(0, 1) === 'Г') {
+                    if (Number(activeAnswer) === currentQuestion.answer) {
+                        setIsResultDisplayed(true);
+                        dispatch(onHandleWriteQuestions(activeQuestions));
+                    } else {
+                        setShowAnswer(true);
+                    }
                 } else {
-                    dispatch(onHandleDontWriteQuestions(activeQuestions));
+                    setIsResultDisplayed(true);
+                    if (Number(activeAnswer) === currentQuestion.answer) {
+                        dispatch(onHandleWriteQuestions(activeQuestions));
+                    } else {
+                        dispatch(onHandleDontWriteQuestions(activeQuestions));
+                    }
                 }
             }
         } else {
@@ -46,7 +60,8 @@ export const Questions: FC<QuestionsProps> = ({ questions }) => {
                 getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
             }
         }
-    }, [activeAnswer, isResultDisplayed, activeQuestions, questions, dispatch, writeQuestions, dontWriteQuestions]);
+    }, [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode]);
+    
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -56,7 +71,7 @@ export const Questions: FC<QuestionsProps> = ({ questions }) => {
         };
     }, [handleKeyDown]);
 
-    return ( 
+    return (
         <>
             {statusQuestions === 'idle' && (
                 <>
