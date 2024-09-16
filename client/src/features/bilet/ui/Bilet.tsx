@@ -8,41 +8,51 @@ import { useEffect, useState } from "react";
 import { Result } from "./Result";
 import { onGetQuestions } from "../../../shared/api/questionsApi";
 import { onGetBilet } from "../../../shared/utils/utils";
+import { GlavsModeList } from "./GlavsModeList";
+import { clearQuestions, onHandleActiveQuestion } from "../../../app/store/biletSlice";
 
 export const Bilet = () => {
-
-    const { choosedMode, writeQuestions, dontWriteQuestions, questions } = useSelector((state: RootState) => state.biletSlice)
-    const [openResult, setOpenResult] = useState(false)
-    const [resultType, setResultType] = useState('')
-    const dispatch = useDispatch<AppDispatch>()
-    const [questionsForBilet, setQuestionForBilet] = useState<any[]>([])
-    
+    const { choosedMode, writeQuestions, dontWriteQuestions, questions, activeQuestions } = useSelector((state: RootState) => state.biletSlice);
+    const [openResult, setOpenResult] = useState(false);
+    const [resultType, setResultType] = useState('');
+    const [remainsQuestion, setRemainsQuestion] = useState(0);
+    const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
+    console.log(remainsQuestion)
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         dispatch(onGetQuestions());
     }, [dispatch]);
-    
-    useEffect(() => {
-        if (choosedMode && questions.length > 0) {
-            setQuestionForBilet(onGetBilet(choosedMode, questions));
-        }
-    }, [choosedMode, questions]);
-    
 
     useEffect(() => {
-        if (writeQuestions.length === 9 && dontWriteQuestions.length === 1) {
-            setOpenResult(true)
-            setResultType('success')
+        if (choosedMode && questions.length > 0) {
+            setOpenResult(false);
+            setQuestionForBilet(onGetBilet(choosedMode, questions));
+            dispatch(onHandleActiveQuestion(0));
+            dispatch(clearQuestions());
         }
-        if (writeQuestions.length === 10) {
-            setOpenResult(true)
-            setResultType('success')
+    }, [choosedMode, questions, dispatch]);
+
+    useEffect(() => {
+        const filteredWriteQuestions = writeQuestions.filter(q => q !== undefined && q !== null);
+        const filteredDontWriteQuestions = dontWriteQuestions.filter(q => q !== undefined && q !== null);
+
+        if (filteredWriteQuestions.length === 9 && filteredDontWriteQuestions.length === 1) {
+            setOpenResult(true);
+            setResultType('success');
         }
-        if (dontWriteQuestions.length === 2) {
-            setOpenResult(true)
-            setResultType('unsuccess')
+        if (filteredWriteQuestions.length === 10) {
+            setOpenResult(true);
+            setResultType('success');
         }
-    }, [writeQuestions, dontWriteQuestions])
+        if (filteredDontWriteQuestions.length === 2) {
+            setOpenResult(true);
+            setResultType('unsuccess');
+        }
+        if(choosedMode.slice(0,1) === 'Г' && remainsQuestion === 0 && writeQuestions.length >= 1){
+            setOpenResult(true)
+        }
+    }, [writeQuestions, dontWriteQuestions,remainsQuestion,choosedMode]);
 
     return (
         <div className="container">
@@ -52,10 +62,17 @@ export const Bilet = () => {
                         <div className="w-full h-[50px] bg-[#cccccc]">
                             <Timer openResult={openResult} />
                         </div>
-                        <div className="w-full h-[40px]  bg-[#e0e0e0] border-b border-gray-400">
-                            <QuestionsList />
-                        </div>
-                        <div className="w-full  overflowY-auto h-[625px] bg-[white]">
+                        {choosedMode.slice(0, 1) !== 'Г' ? (
+                            <div className="w-full h-[40px] bg-[#e0e0e0] border-b border-gray-400">
+                                <QuestionsList />
+                            </div>
+                        ) : (
+                            <div className="flex justify-end h-[40px] bg-[#e0e0e0] border-b border-gray-400">
+                                <GlavsModeList remains={remainsQuestion} setRemains={setRemainsQuestion} questionLength={questionsForBilet.length} currentQuestion={activeQuestions} />
+                            </div>
+                        )}
+
+                        <div className="w-full overflowY-auto h-[625px] bg-[white]">
                             <Questions questions={questionsForBilet} />
                         </div>
                         <div className="w-full h-[50px] bg-gray-200">
@@ -63,8 +80,26 @@ export const Bilet = () => {
                         </div>
                     </>
                 )}
-                {openResult && (
-                    <Result result={resultType} writeQuestion={writeQuestions} dontWriteQuestion={dontWriteQuestions} openResult={openResult} />
+                {openResult && choosedMode.slice(0, 1) !== 'Г' && (
+                    <Result
+                        result={resultType}
+                        writeQuestion={writeQuestions}
+                        dontWriteQuestion={dontWriteQuestions}
+                        openResult={openResult}
+                    />
+                )}
+                {openResult && remainsQuestion === 0 && (
+                    <Result
+                        choosedMode={choosedMode}
+                        result="success"
+                        writeQuestion={writeQuestions}
+                        dontWriteQuestion={dontWriteQuestions}
+                        openResult={true}
+                        remains={remainsQuestion}
+                        currentQuestion={activeQuestions}
+                        questionLength={writeQuestions.length}
+                        setRemains={setRemainsQuestion}
+                    />
                 )}
             </div>
         </div>

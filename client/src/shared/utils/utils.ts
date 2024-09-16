@@ -1,6 +1,5 @@
-import { useSelector } from "react-redux";
 import { onHandleActiveQuestion } from "../../app/store/biletSlice";
-import { AppDispatch, RootState } from "../../app/store/store";
+import { AppDispatch, } from "../../app/store/store";
 
 export const getLastOrFirst = (
     questions: any[],

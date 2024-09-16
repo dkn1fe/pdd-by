@@ -33,7 +33,7 @@ export const Timer: FC<TimerProps> = ({ openResult }) => {
                 <h3 className="pt-2 pl-2 absolute left-0 text-lg">{choosedMode}</h3>
                 <div className="w-full flex justify-center">
                     <div className="w-[80px] h-[30px] mt-3 bg-white flex items-center justify-center text-lg border border-gray-400">
-                        {choosedMode.slice(0, 1) === 'Т' ? '- - : --' : formatTime(time)}
+                        {choosedMode.slice(0, 1) === 'Т' || choosedMode.slice(0, 1) === 'Г' ? '- - : --' : formatTime(time)}
                     </div>
                 </div>
             </div>
