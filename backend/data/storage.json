@@ -2,7 +2,7 @@
   {
     "glava" : "Глава 1" ,
     "title": "Вопрос 1",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": null,
     "question": "В каком случае водитель совершит вынужденную остановку?",
     "options": [
@@ -17,7 +17,7 @@
   {
     "glava" : "Глава 1" ,
     "title": "Вопрос 2",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/lZWo",
     "question": "Разрешен ли Вам съезд на дорогу с грунтовым покрытием?",
     "options": [
@@ -32,7 +32,7 @@
   {
     "glava" : "Глава 2" ,
     "title": "Вопрос 3",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/gWhg",
     "question": "Можно ли Вам остановиться в указанном месте для посадки пассажира?",
     "options": [
@@ -47,7 +47,7 @@
   {
     "glava" : "Глава 2" ,
     "title": "Вопрос 4",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/rNpn",
     "question": "Какие из указанных знаков запрещают движение водителям мопедов?",
     "options": [
@@ -63,7 +63,7 @@
   {
     "glava" : "Глава 2" ,
     "title": "Вопрос 5",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/Bq4G",
     "question": "Вы намерены повернуть налево. Где следует остановиться, чтобы уступить дорогу легковому автомобилю?",
     "options": [
@@ -79,7 +79,7 @@
   {
     "glava" : "Глава 3" ,
     "title": "Вопрос 6",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": null,
     "question": "Что означает мигание зелёного сигнала светофора?",
     "options": [
@@ -94,7 +94,7 @@
   {
     "glava" : "Глава 4" ,
     "title": "Вопрос 7",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": null,
     "question": "Водитель обязан подавать сигналы световыми указателями поворота (рукой):",
     "options": [
@@ -110,7 +110,7 @@
   {
     "glava" : "Глава 5" ,
     "title": "Вопрос 8",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/y7CY",
     "question": "Как Вам следует поступить при повороте направо?",
     "options": [
@@ -125,7 +125,7 @@
   {
     "glava": "Глава 6",
     "title": "Вопрос 9",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/oURC",
     "question": "По какой траектории Вам разрешено выполнить разворот?",
     "options": [
@@ -140,7 +140,7 @@
 {
     "glava": "Глава 6",
     "title": "Вопрос 10",
-    "ticket_number": "Билет 1",
+    "ticket_number": "1",
     "image": "https://gog.su/AMF8",
     "question": "С какой скоростью Вы можете продолжить движение вне населённого пункта по левой полосе на легковом автомобиле?",
     "options": [
@@ -155,7 +155,7 @@
 {
     "glava": "Глава 7",
     "title": "Вопрос 11",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/99xN",
     "question": "Можно ли водителю легкового автомобиля выполнить опережение грузовых автомобилей вне населенного пункта по такой траектории?",
     "options": [
@@ -170,7 +170,7 @@
 {
     "glava": "Глава 8",
     "title": "Вопрос 12",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/JVFu",
     "question": "В каком случае водителю разрешается поставить автомобиль на стоянку в указанном месте?",
     "options": [
@@ -185,7 +185,7 @@
 {
     "glava": "Глава 9",
     "title": "Вопрос 13",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/ypSi",
     "question": "При повороте направо Вы должны уступить дорогу:",
     "options": [
@@ -201,7 +201,7 @@
 {
     "glava": "Глава 10",
     "title": "Вопрос 14",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/ElA1",
     "question": "Вы намерены проехать перекрёсток в прямом направлении. Кому Вы должны уступить дорогу?",
     "options": [
@@ -217,7 +217,7 @@
 {
     "glava": "Глава 11",
     "title": "Вопрос 15",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/DHXb",
     "question": "Кому Вы обязаны уступить дорогу при повороте налево?",
     "options": [
@@ -232,7 +232,7 @@
 {
     "glava": "Глава 12",
     "title": "Вопрос 16",
-    "ticket_number": "Билет 1",
+    "ticket_number": "3",
     "image": "https://gog.su/nADL",
     "question": "С какой максимальной скоростью можно продолжить движение за знаком?",
     "options": [
@@ -248,7 +248,7 @@
   {
       "glava": "Глава 13",
       "title": "Вопрос 17",
-      "ticket_number": "Билет 1",
+      "ticket_number": "3",
       "image": null,
       "question": "Для перевозки людей на мотоцикле водитель должен иметь водительское удостоверение на право управления транспортными средствами:",
       "options": [
@@ -263,7 +263,7 @@
   {
       "glava": "Глава 14",
       "title": "Вопрос 18",
-      "ticket_number": "Билет 1",
+      "ticket_number": "3",
       "image": null,
       "question": "При какой неисправности разрешается эксплуатация транспортного средства?",
       "options": [
@@ -279,7 +279,7 @@
   {
       "glava": "Глава 14",
       "title": "Вопрос 19",
-      "ticket_number": "Билет 1",
+      "ticket_number": "3",
       "image": null,
       "question": "В случае, когда правые колёса автомобиля наезжают на неукреплённую влажную обочину, рекомендуется:",
       "options": [
@@ -294,7 +294,7 @@
   {
       "glava": "Глава 15",
       "title": "Вопрос 20",
-      "ticket_number": "Билет 1",
+      "ticket_number": "3",
       "image": null,
       "question": "Что понимается под временем реакции водителя?",
       "options": [
@@ -324,7 +324,7 @@
   {
       "glava": "Глава 17",
       "title": "Вопрос 2",
-      "ticket_number": "Билет 2",
+      "ticket_number": "2",
       "image": "https://gog.su/sbwS",
       "question": "Можно ли Вам въехать на мост первым?",
       "options": [
@@ -339,7 +339,7 @@
   {
       "glava": "Глава 18",
       "title": "Вопрос 3",
-      "ticket_number": "Билет 2",
+      "ticket_number": "2",
       "image": "https://gog.su/QvLk",
       "question": "Разрешено ли Вам произвести остановку для посадки пассажира?",
       "options": [
@@ -355,7 +355,7 @@
   {
       "glava": "Глава 19",
       "title": "Вопрос 4",
-      "ticket_number": "Билет 2",
+      "ticket_number": "2",
       "image": "https://gog.su/URlz",
       "question": "Что запрещено в зоне действия этого знака?",
       "options": [
@@ -370,7 +370,7 @@
     {
         "glava": "Глава 20",
         "title": "Вопрос 5",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": "https://gog.su/Ox27",
         "question": "Разрешен ли Вам выезд на полосу с реверсивным движением, если реверсивный светофор выключен?",
         "options": [
@@ -385,7 +385,7 @@
     {
         "glava": "Глава 21",
         "title": "Вопрос 6",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": "https://gog.su/YOm3",
         "question": "В каких направлениях Вам разрешается продолжить движение?",
         "options": [
@@ -400,7 +400,7 @@
     {
         "glava": "Глава 22",
         "title": "Вопрос 7",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": "https://gog.su/JRu3",
         "question": "Поднятая вверх рука водителя легкового автомобиля является сигналом, информирующим Вас о его намерении:",
         "options": [
@@ -415,7 +415,7 @@
     {
         "glava": "Глава 23",
         "title": "Вопрос 8",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": "https://gog.su/fkIx",
         "question": "Двигаясь по левой полосе, водитель намерен перестроиться на правую. На каком из рисунков показана ситуация, в которой он обязан уступить дорогу?",
         "options": [
@@ -430,7 +430,7 @@
     {
         "glava": "Глава 24",
         "title": "Вопрос 9",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": "https://gog.su/I5q3",
         "question": "Можно ли Вам выполнить разворот в этом месте?",
         "options": [
@@ -445,7 +445,7 @@
     {
         "glava": "Глава 25",
         "title": "Вопрос 10",
-        "ticket_number": "Билет 2",
+        "ticket_number": "2",
         "image": null,
         "question": "В каких случаях разрешается наезжать на прерывистые линии разметки, разделяющие проезжую часть на полосы движения?",
         "options": [
