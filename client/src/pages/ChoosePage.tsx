@@ -2,6 +2,7 @@ import { ChooseMode } from '../features/choose-mode/index'
 import { HelpKeyboard } from '../features/help-keyboard/index'
 import { Footer } from '../widgets/footer/Footer'
 import { modes } from "../shared/utils/modes";
+import { ModalBilet } from '../features/modal-bilet/index';
 
 
 export const ChoosePage = () => {

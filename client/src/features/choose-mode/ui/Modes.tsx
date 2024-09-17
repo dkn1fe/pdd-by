@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store/store";
 import { handleChooseMode } from "../../../app/store/biletSlice";
+import { ModalBilet } from "../../modal-bilet";
 
 interface ModesProps {
     modes: any[],
@@ -11,6 +12,7 @@ interface ModesProps {
 
 export const Modes: FC<ModesProps> = ({ modes, title }) => {
     const [activeMode, setActiveMode] = useState(1);
+    const [isOpenBiletWindow, setIsOpenBiletWindow] = useState(false);
     const modesElem = useRef<{ [key: number]: HTMLDivElement | null }>({});
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +31,24 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
                 dispatch(handleChooseMode(selectedItem.title));
             }
         }
+        if (event.key === 'Enter' && (activeMode === 3 || activeMode === 6)) {
+            setIsOpenBiletWindow(true);
+        }
     };
+
+    const handleEscapePress = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            setIsOpenBiletWindow(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleEscapePress);
+
+        return () => {
+            window.removeEventListener('keydown', handleEscapePress);
+        };
+    }, []);
 
     useEffect(() => {
         if (activeMode > modes.length || activeMode < 1) {
@@ -44,28 +63,32 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
     }, [activeMode]);
 
     return (
-        <div className={`w-full ${title.slice(0,1) === 'Т' ? 'h-[420px]' : 'h-[435px]'} mt-2 bg-[#0578cc]`}>
-            {modes.map(item => (
-                <div
-                    key={item.id}
-                    onClick={() => {
-                        setActiveMode(item.id);
-                    }}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    tabIndex={0}
-                    autoFocus={item.id === 1}
-                    ref={el => (modesElem.current[item.id] = el)}
-                    className={`flex flex-col m-auto justify-center pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
-                        ${title.slice(0, 1) === 'В' && item.id === 5 ? 'mt-10' : 'mt-2'} 
-                        ${title.slice(0,1) === 'Т' ? 'pl-10 pt-4' : 'pl-16 '}
-                        ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`
-                    }
-                >
-                    <h3 className={`text-left text-2xl ${activeMode === item.id ? 'text-black' : 'text-white'}`}>
-                        {item.title}
-                    </h3>
-                </div>
-            ))}
-        </div>
+        <>
+            {isOpenBiletWindow && (
+                <ModalBilet />
+            )}
+            <div className={`w-full ${title.slice(0, 1) === 'Т' ? 'h-[420px]' : 'h-[435px]'} mt-2 bg-[#0578cc]`}>
+                {modes.map(item => (
+                    <div
+                        key={item.id}
+                        onClick={() => {
+                            setActiveMode(item.id);
+                        }}
+                        onKeyDown={(e) => handleKeyPress(e)}
+                        tabIndex={0}
+                        autoFocus={item.id === 1}
+                        ref={el => (modesElem.current[item.id] = el)}
+                        className={`flex flex-col m-auto justify-center pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
+                            ${title.slice(0, 1) === 'В' && item.id === 5 ? 'mt-10' : 'mt-2'} 
+                            ${title.slice(0, 1) === 'Т' ? 'pl-10 pt-4' : 'pl-16 '}
+                            ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`}
+                    >
+                        <h3 className={`text-left text-2xl ${activeMode === item.id ? 'text-black' : 'text-white'}`}>
+                            {item.title}
+                        </h3>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };

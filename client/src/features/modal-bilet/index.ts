@@ -1,0 +1,1 @@
+export {ModalBilet} from './ui/ModalBilet'
