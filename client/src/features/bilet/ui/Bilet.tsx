@@ -18,6 +18,7 @@ export const Bilet = () => {
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
+    console.log(questionsForBilet)
 
     useEffect(() => {
         dispatch(onGetQuestions());

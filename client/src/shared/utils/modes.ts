@@ -11,13 +11,13 @@ export const modes = [
 ]
 
 export const trainBiletMods = [
-    { id: 1, title: 'Глава 1-6', link: '/' },
-    { id: 2, title: 'Дорожные знаки, разметка, Приложение 2,3', link: '/' },
-    { id: 3, title: 'Главы 7-13, Приложение 1', link: '/' },
-    { id: 4, title: 'Главы 8-12 и 19', link: '/' },
-    { id: 5, title: 'Главы 14-18, 20-25', link: '/' },
-    { id: 6, title: 'Глава 26, Приложение 4, 5', link: '/' },
-    { id: 7, title: 'Ответственность. Безопасность. Медицина', link: '/' },
+    { id: 1, title: 'Глава 1-6', link: '/training' },
+    { id: 2, title: 'Дорожные знаки, разметка, Приложение 2,3', link: '/training' },
+    { id: 3, title: 'Главы 7-13, Приложение 1', link: '/training' },
+    { id: 4, title: 'Главы 8-12 и 19', link: '/training' },
+    { id: 5, title: 'Главы 14-18, 20-25', link: '/training' },
+    { id: 6, title: 'Глава 26, Приложение 4, 5', link: '/training' },
+    { id: 7, title: 'Ответственность. Безопасность. Медицина', link: '/training' },
 ]
 
 export const allGlavsMods = [
