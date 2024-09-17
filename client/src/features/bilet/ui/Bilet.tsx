@@ -12,12 +12,11 @@ import { GlavsModeList } from "./GlavsModeList";
 import { clearQuestions, onHandleActiveQuestion } from "../../../app/store/biletSlice";
 
 export const Bilet = () => {
-    const { choosedMode, writeQuestions, dontWriteQuestions, questions, activeQuestions } = useSelector((state: RootState) => state.biletSlice);
+    const { choosedMode, writeQuestions, dontWriteQuestions, questions, activeQuestions,choosedBilet } = useSelector((state: RootState) => state.biletSlice);
     const [openResult, setOpenResult] = useState(false);
     const [resultType, setResultType] = useState('');
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
-    console.log(remainsQuestion)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -27,11 +26,11 @@ export const Bilet = () => {
     useEffect(() => {
         if (choosedMode && questions.length > 0) {
             setOpenResult(false);
-            setQuestionForBilet(onGetBilet(choosedMode, questions));
+            setQuestionForBilet(onGetBilet(choosedMode, questions,choosedBilet));
             dispatch(onHandleActiveQuestion(0));
             dispatch(clearQuestions());
         }
-    }, [choosedMode, questions, dispatch]);
+    }, [choosedMode, questions, choosedBilet]);
 
     useEffect(() => {
         const filteredWriteQuestions = writeQuestions.filter(q => q !== undefined && q !== null);

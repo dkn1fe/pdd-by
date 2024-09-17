@@ -38,7 +38,7 @@ export const getLastOrFirst = (
 };
 
 
-export const onGetBilet = (mode: string, questions: any[]) => { 
+export const onGetBilet = (mode: string, questions: any[],choosedBilet:number) => { 
     let filteredQuestions = [];
     switch (true) {
         case mode.slice(0, 1) === 'Г': 
@@ -51,7 +51,9 @@ export const onGetBilet = (mode: string, questions: any[]) => {
                 .slice(0, 10)                   
                 .sort((a, b) => a.id - b.id);   
             return filteredQuestions;
-
+        case mode === 'Тренировка по билету N' || mode === 'Контроль по билету N':
+            filteredQuestions = questions.filter(item => item.ticket_number === choosedBilet)
+            return filteredQuestions
         default:
             return [];
     }
