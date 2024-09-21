@@ -9,28 +9,42 @@ import { Result } from "./Result";
 import { onGetQuestions } from "../../../shared/api/questionsApi";
 import { onGetBilet } from "../../../shared/utils/utils";
 import { GlavsModeList } from "./GlavsModeList";
-import { clearQuestions, onHandleActiveQuestion } from "../../../app/store/biletSlice";
+import { clearQuestions, onHandleActiveQuestion, handleChangeResultStatus } from "../../../app/store/biletSlice";
+import { ControlWindow } from "../../control-window/index";
 
 export const Bilet = () => {
-    const { choosedMode, writeQuestions, dontWriteQuestions, questions, activeQuestions,choosedBilet } = useSelector((state: RootState) => state.biletSlice);
+    const { choosedMode,
+        writeQuestions,
+        dontWriteQuestions,
+        questions,
+        activeQuestions,
+        choosedBilet,
+        resultStatus,
+        yoursUnWriteAnswers
+    } = useSelector((state: RootState) => state.biletSlice);
     const [openResult, setOpenResult] = useState(false);
     const [resultType, setResultType] = useState('');
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
+    const status = window.location.pathname.slice(1)
+    console.log(yoursUnWriteAnswers)
+
 
     useEffect(() => {
         dispatch(onGetQuestions());
+        dispatch(handleChangeResultStatus(''))
     }, [dispatch]);
 
     useEffect(() => {
         if (choosedMode && questions.length > 0) {
             setOpenResult(false);
-            setQuestionForBilet(onGetBilet(choosedMode, questions,choosedBilet));
+            setQuestionForBilet(onGetBilet(choosedMode, questions, choosedBilet));
+            dispatch(handleChangeResultStatus(''))
             dispatch(onHandleActiveQuestion(0));
             dispatch(clearQuestions());
         }
-    }, [choosedMode, questions, choosedBilet]);
+    }, [choosedMode, questions, choosedBilet, dispatch]);
 
     useEffect(() => {
         const filteredWriteQuestions = writeQuestions.filter(q => q !== undefined && q !== null);
@@ -48,10 +62,10 @@ export const Bilet = () => {
             setOpenResult(true);
             setResultType('unsuccess');
         }
-        if(choosedMode.slice(0,1) === 'Г' && remainsQuestion === 0 && writeQuestions.length >= 1){
+        if (choosedMode.slice(0, 1) === 'Г' && remainsQuestion === 0 && writeQuestions.length >= 1) {
             setOpenResult(true)
         }
-    }, [writeQuestions, dontWriteQuestions,remainsQuestion,choosedMode]);
+    }, [writeQuestions, dontWriteQuestions, remainsQuestion, choosedMode]);
 
     return (
         <div className="container">
@@ -79,26 +93,43 @@ export const Bilet = () => {
                         </div>
                     </>
                 )}
-                {openResult && choosedMode.slice(0, 1) !== 'Г' && (
-                    <Result
-                        result={resultType}
-                        writeQuestion={writeQuestions}
-                        dontWriteQuestion={dontWriteQuestions}
-                        openResult={openResult}
-                    />
-                )}
-                {openResult && remainsQuestion === 0 && (
-                    <Result
-                        choosedMode={choosedMode}
-                        result="success"
-                        writeQuestion={writeQuestions}
-                        dontWriteQuestion={dontWriteQuestions}
-                        openResult={true}
-                        remains={remainsQuestion}
-                        currentQuestion={activeQuestions}
-                        questionLength={writeQuestions.length}
-                        setRemains={setRemainsQuestion}
-                    />
+                {openResult && (
+                    <>
+                        {status === 'training' && (
+                            <Result
+                                result={resultType}
+                                writeQuestion={writeQuestions}
+                                dontWriteQuestion={dontWriteQuestions}
+                                openResult={openResult}
+                            />
+                        )}
+                        {choosedMode.slice(0,1) === 'Г' && remainsQuestion === 0 && (
+                            <Result
+                                choosedMode={choosedMode}
+                                result="success"
+                                writeQuestion={writeQuestions}
+                                dontWriteQuestion={dontWriteQuestions}
+                                openResult={true}
+                                remains={remainsQuestion}
+                                currentQuestion={activeQuestions}
+                                questionLength={writeQuestions.length}
+                                setRemains={setRemainsQuestion}
+                            />
+                        )}
+                        {resultStatus !== 'controlWindow' && status === 'control' && (
+                            <Result
+                                choosedMode={choosedMode}
+                                result={resultType}
+                                status={status}
+                                writeQuestion={writeQuestions}
+                                dontWriteQuestion={dontWriteQuestions}
+                                openResult={true}
+                            />
+                        )}
+                        {status === 'control' && resultStatus === 'controlWindow' && (
+                            <ControlWindow yoursUnWriteAnswers = {yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
+                        )}
+                    </>
                 )}
             </div>
         </div>

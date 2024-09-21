@@ -28,7 +28,7 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
             const selectedItem = allGlavsMods.find(item => item.id === activeMode);
             if (selectedItem) {
                 dispatch(handleChooseMode(selectedItem.title));
-                navigate('/training');
+                navigate('/allGlavsTrain');
             }
         }
     };
