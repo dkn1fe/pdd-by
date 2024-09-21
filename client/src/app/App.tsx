@@ -8,6 +8,7 @@ import { Footer } from "../widgets/footer/Footer"
 import { AllGlavsPage } from "../pages/AllGlavsPage"
 
 
+
 export const App = () => {
   const [isOpen, setIsOpen] = useState(true)
 
@@ -24,9 +25,12 @@ export const App = () => {
       {!isOpen && (
         <Routes>
           <Route path='/' element={<ChoosePage />} />
-          <Route path='/temBilet' element={<GlavsPage />} />
+          <Route path='/trainingTemBilet' element={<GlavsPage />} />
+          <Route path='/controlTemBilet' element={<GlavsPage />} />
           <Route path="/training" element={<Bilet />} />
-          <Route path='allGlavs' element={<AllGlavsPage/>} />
+          <Route path="/control" element={<Bilet />} />
+          <Route path='/allGlavs' element={<AllGlavsPage />} />
+          <Route path='/allGlavsTrain' element={<Bilet />} />
         </Routes>
       )}
 

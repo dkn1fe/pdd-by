@@ -100,3 +100,4 @@ export const onGetBilet = (mode: string, questions: any[], choosedBilet: number)
             return [];
     }
 };
+

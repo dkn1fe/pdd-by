@@ -1,13 +1,13 @@
 
 export const modes = [
     { id: 1, title: 'Тренировка по главам ПДД', link: '/allGlavs' },
-    { id: 2, title: 'Тренировка по тематическим билетам', link: '/temBilet' },
+    { id: 2, title: 'Тренировка по тематическим билетам', link: '/trainingTemBilet' },
     { id: 3, title: 'Тренировка по билету N', link: '/' },
     { id: 4, title: 'Тренировка по случайному билету', link: '/training' },
-    { id: 5, title: 'Контроль по тематическим билетам', link: '/' },
+    { id: 5, title: 'Контроль по тематическим билетам', link: '/controlTemBilet' },
     { id: 6, title: 'Контроль по билету N', link: '/' },
-    { id: 7, title: 'Контроль по случайному билету x10', link: '/' },
-    { id: 8, title: 'Контроль по случайному билету', link: '/' },
+    { id: 7, title: 'Контроль по случайному билету x10', link: '/control' },
+    { id: 8, title: 'Контроль по случайному билету', link: '/control' },
 ]
 
 export const trainBiletMods = [

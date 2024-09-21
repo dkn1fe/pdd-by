@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store/store";
 import { FC, useEffect, useState, useCallback } from "react";
-import { onHandleWriteQuestions, onHandleDontWriteQuestions } from "../../../app/store/biletSlice";
+import { onHandleWriteQuestions, onHandleDontWriteQuestions,handleChangeYourAnswer} from "../../../app/store/biletSlice";
 import { getLastOrFirst } from "../../../shared/utils/utils";
 import { HelpForBilet } from "./HelpForBilet";
 
@@ -9,10 +9,10 @@ interface QuestionsProps {
   questions: any[];
 }
 
-export const Questions: FC<QuestionsProps> = ({ questions }) => {
+export const Questions: FC<QuestionsProps> = ({ questions}) => {
   const { activeQuestions, writeQuestions, dontWriteQuestions, statusQuestions, choosedMode } = useSelector((state: RootState) => state.biletSlice);
-  const [activeAnswer, setActiveAnswer] = useState('');
   const [isOpenHelpForBilet, setIsOpenHelpForBilet] = useState(false);
+  const [activeAnswer,setActiveAnswer] = useState('')
   const [showAnswer, setShowAnswer] = useState(false);
   const [isResultDisplayed, setIsResultDisplayed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -52,6 +52,7 @@ export const Questions: FC<QuestionsProps> = ({ questions }) => {
               dispatch(onHandleWriteQuestions(activeQuestions));
             } else {
               dispatch(onHandleDontWriteQuestions(activeQuestions));
+              dispatch(handleChangeYourAnswer(activeAnswer))
             }
           }
         } else if (key === 'X' || key === 'x' || key === 'х' || key === 'Х') {

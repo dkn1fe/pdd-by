@@ -7,7 +7,9 @@ interface InitialStateType{
    writeQuestions:number[],
    dontWriteQuestions:number[]
    questions:any[]
-   statusQuestions:'idle' | 'loading' 
+   statusQuestions:'idle' | 'loading'
+   resultStatus:'controlWindow' | 'result' | ''
+   yoursUnWriteAnswers:number[]
    choosedBilet:number
 }
 
@@ -15,8 +17,10 @@ const initialState:InitialStateType = {
     choosedMode:'',
     activeQuestions:0,
     writeQuestions:[],
+    resultStatus:'',
     dontWriteQuestions:[],
     questions:[],
+    yoursUnWriteAnswers:[],
     statusQuestions:'idle',
     choosedBilet:0
 }
@@ -43,6 +47,13 @@ export const biletSlice = createSlice({
       clearQuestions:(state)=>{
         state.writeQuestions = []
         state.dontWriteQuestions = []
+        state.yoursUnWriteAnswers = []
+      },
+      handleChangeResultStatus:(state,action)=>{
+        state.resultStatus = action.payload
+      },
+      handleChangeYourAnswer:(state,action)=>{
+        state.yoursUnWriteAnswers = [...state.yoursUnWriteAnswers,action.payload]
       }
     
     },
@@ -63,6 +74,9 @@ export const {
   onHandleWriteQuestions,
   onHandleDontWriteQuestions,
   clearQuestions,
-  handleChooseBilet
+  handleChooseBilet,
+  handleChangeResultStatus,
+  handleChangeYourAnswer
+
 } = biletSlice.actions
 export default biletSlice.reducer

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { AppDispatch } from "../../../app/store/store"
+import { AppDispatch, RootState } from "../../../app/store/store"
 import { handleChooseBilet } from "../../../app/store/biletSlice"
 
 export const ModalBilet = () => {
+    const {choosedMode} = useSelector((state:RootState)=> state.biletSlice)
+    console.log(choosedMode)
     const [bilet, setBilet] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
     const navigate = useNavigate()
@@ -21,7 +23,12 @@ export const ModalBilet = () => {
             setBilet('')
         }
         if (e.key === 'Enter'){
-            navigate('/training')
+            if(choosedMode.slice(0,1) === 'Т'){
+                navigate('/training') 
+            }
+            else{
+                navigate('/control')
+            }
             dispatch(handleChooseBilet(bilet))
         }
     }
