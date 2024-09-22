@@ -1,6 +1,7 @@
+import { ShowMistake } from "../../bilet/ui/ShowMistake";
 import { WindowResult } from "./WindowResult";
 import { WindowTable } from "./WindowTable";
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ControlWindowProps {
@@ -14,6 +15,8 @@ interface ControlWindowProps {
 
 export const ControlWindow: FC<ControlWindowProps> = ({ writeQuestions, unWriteQuestions,mode,choosedBilet,questions,yoursUnWriteAnswers}) => {
 
+    const [isOpenShowMistakeList,setIsOpenShowMistakeList] = useState({open:false,mistake:0,rightAnswer:0,yourAnswer:0})
+   
     const navigate = useNavigate()
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -30,6 +33,9 @@ export const ControlWindow: FC<ControlWindowProps> = ({ writeQuestions, unWriteQ
 
 
     return (
+        <>
+        {!isOpenShowMistakeList.open && (
+
         <div className="max-w-[1100px] relative m-auto pt-[150px]">
             <div className="w-full h-[400px] bg-gray-400 shadow-2xl flex justify-center items-center">
                 <div className="m-2 bg-white h-[385px] w-full max-w-[99%]">
@@ -37,8 +43,20 @@ export const ControlWindow: FC<ControlWindowProps> = ({ writeQuestions, unWriteQ
                 </div>
             </div>
             <div className="absolute bottom-[80px] w-full">
-                <WindowTable yoursUnWriteAnswers={yoursUnWriteAnswers} questions={questions} choosedBilet={choosedBilet} unWriteQuestions={unWriteQuestions} />
+                <WindowTable setIsOpenShowMistake = {setIsOpenShowMistakeList} yoursUnWriteAnswers={yoursUnWriteAnswers} questions={questions} choosedBilet={choosedBilet} unWriteQuestions={unWriteQuestions} />
             </div>
         </div>
+        )}
+        {isOpenShowMistakeList.open && (
+             <ShowMistake 
+             question={questions}
+             mistake={isOpenShowMistakeList.mistake}
+             rightAnswer={isOpenShowMistakeList.rightAnswer}
+             yourAnswer={isOpenShowMistakeList.yourAnswer}
+             isOpenShowMistakeList = {isOpenShowMistakeList}
+             setIsOpenShowMistake = {setIsOpenShowMistakeList}
+             />
+        )}
+        </>
     );
 }    

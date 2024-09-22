@@ -5,17 +5,20 @@ interface WindowTableProps {
     choosedBilet: number;
     questions: any[];
     yoursUnWriteAnswers: number[];
+    setIsOpenShowMistake: (state: { open: boolean; mistake: number; rightAnswer: number; yourAnswer: number }) => void;
+
 }
 
-export const WindowTable: FC<WindowTableProps> = ({ questions, unWriteQuestions, choosedBilet, yoursUnWriteAnswers }) => {
+export const WindowTable: FC<WindowTableProps> = ({ questions, unWriteQuestions, choosedBilet, yoursUnWriteAnswers, setIsOpenShowMistake }) => {
 
-    const [isActiveIndex,setIsActiveIndex] = useState(1)
-    console.log(isActiveIndex)
-     
+    const [isActiveIndex, setIsActiveIndex] = useState(1)
+
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'ArrowDown' &&  isActiveIndex < 2) setIsActiveIndex(isActiveIndex => isActiveIndex + 1)
-        if (e.key === 'ArrowUp'   && isActiveIndex > 1) setIsActiveIndex(isActiveIndex => isActiveIndex - 1)
-    }, [isActiveIndex])
+        if (e.key === 'ArrowDown' && isActiveIndex < 2) setIsActiveIndex(isActiveIndex => isActiveIndex + 1)
+        if (e.key === 'ArrowUp' && isActiveIndex > 1) setIsActiveIndex(isActiveIndex => isActiveIndex - 1)
+        if (e.key === 'Enter' && isActiveIndex === 1) setIsOpenShowMistake({ open: true, mistake: unWriteQuestions[0], yourAnswer: yoursUnWriteAnswers[0], rightAnswer: questions[unWriteQuestions[0]]?.answer })
+        if (e.key === 'Enter' && isActiveIndex === 2) setIsOpenShowMistake({ open: true, mistake: unWriteQuestions[1], yourAnswer: yoursUnWriteAnswers[1], rightAnswer: questions[unWriteQuestions[1]]?.answer })
+    }, [isActiveIndex, setIsOpenShowMistake])
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown)
@@ -43,7 +46,7 @@ export const WindowTable: FC<WindowTableProps> = ({ questions, unWriteQuestions,
                 </thead>
                 <tbody>
                     {windowTableList.map(({ id, bilet, numberTask, yourAnswer, rightAnswer }) => (
-                        <tr autoFocus onClick={() => setIsActiveIndex(id)} key={id} className={`bg-white ${isActiveIndex === id ? 'bg-blue-400' : ''}`}>
+                        <tr autoFocus onClick={() => setIsActiveIndex(id)} key={id} className={`bg-white ${isActiveIndex === id ? 'bg-blue-200' : ''}`}>
                             <td className="border p-2 text-center">{bilet}</td>
                             <td className="border p-2 text-center">{numberTask}</td>
                             <td className="border p-2 text-center">{yourAnswer}</td>
