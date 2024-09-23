@@ -1,7 +1,7 @@
 import { useEffect, useRef, FC } from "react";
 import { allGlavsMods } from "../../../shared/utils/modes";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../app/store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store/store";
 import { useNavigate } from "react-router-dom";
 import { handleChooseMode } from "../../../app/store/biletSlice";
 
@@ -11,11 +11,12 @@ interface GlavsModeProps {
 }
 
 export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => {
-    const { choosedMode } = useSelector((state: RootState) => state.biletSlice);
     const dispatch = useDispatch<AppDispatch>();
+    const modesElem = useRef<{ [key: number]: HTMLDivElement | null }>({});
     const navigate = useNavigate();
 
     const containerRef = useRef<HTMLDivElement | null>(null);
+    const firstElementRef = useRef<HTMLDivElement | null>(null); 
 
     const handleKeyPress = (event: { key: string }) => {
         if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S' || event.key === 'ы' || event.key === 'Ы') {
@@ -51,6 +52,12 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
         }
     }, [activeMode]);
 
+    useEffect(() => {
+        if (firstElementRef.current) {
+            firstElementRef.current.focus();
+        }
+    }, [activeMode]);
+
     return (
         <>
             <div className="ml-2 w-[385px] h-[94.5%] mt-2 bg-[#0578cc]">
@@ -62,9 +69,11 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
                     }}
                     tabIndex={0}
                     onKeyDown={handleKeyPress}
+                    onClick={() => firstElementRef.current?.focus()} 
                 >
                     {allGlavsMods.map(item => (
                         <div
+                            ref={item.id === 1 ? firstElementRef : el => (modesElem.current[item.id] = el)}
                             onClick={() => setActiveMode(item.id)}
                             key={item.id}
                             id={`glav-${item.id}`}

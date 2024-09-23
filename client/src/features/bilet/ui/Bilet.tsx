@@ -28,7 +28,7 @@ export const Bilet = () => {
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
     const status = window.location.pathname.slice(1)
-    console.log(choosedMode)
+    console.log(questionsForBilet)
 
 
     useEffect(() => {
@@ -126,8 +126,10 @@ export const Bilet = () => {
                                 openResult={true}
                             />
                         )}
-                        {status === 'control' && resultStatus === 'controlWindow' && (
-                            <ControlWindow yoursUnWriteAnswers = {yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
+                        {status === 'control' && resultStatus === 'controlWindow' && yoursUnWriteAnswers.length !== 0 &&  (
+                            <>
+                                <ControlWindow yoursUnWriteAnswers={yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
+                            </>
                         )}
                     </>
                 )}

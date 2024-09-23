@@ -5,6 +5,7 @@ import { Timer } from "./Timer";
 import { MistakeShow } from "./MistakeShow";
 import { HelpForBilet } from "./HelpForBilet";
 
+
 interface ShowMistakeProps {
     question: any[],
     mistake: number,
