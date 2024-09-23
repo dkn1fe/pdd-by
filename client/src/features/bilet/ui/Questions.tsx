@@ -17,6 +17,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [isResultDisplayed, setIsResultDisplayed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  console.log(status)
 
   if (choosedMode.slice(0, 1) !== 'Г') {
     questions[10] = questions[0];
@@ -28,7 +29,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       const key = e.key;
-
+  
       if (!isResultDisplayed) {
         if (key >= '1' && key <= currentQuestion?.options.length.toString()) {
           setActiveAnswer(key);
@@ -40,8 +41,8 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
         } else if (key === 'Enter' && activeAnswer !== '') {
           setShowAnswer(true);
           setIsOpenHelpForBilet(false);
-
-          if (status === 'training') {
+  
+          if (status === 'training' || status === 'allGlavsTrain') {
             if (Number(activeAnswer) === currentQuestion.answer) {
               setIsResultDisplayed(true);
               dispatch(onHandleWriteQuestions(activeQuestions));
@@ -62,7 +63,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
         }
       } else {
         if (key === 'Enter') {
-          if (status === 'training' && Number(activeAnswer) !== currentQuestion.answer) {
+          if ((status === 'training' || status === 'allGlavsTrain') && Number(activeAnswer) !== currentQuestion.answer) {
             setIsResultDisplayed(false);
             setActiveAnswer('');
             setShowAnswer(false);
@@ -77,6 +78,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
     },
     [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode, status]
   );
+  
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
