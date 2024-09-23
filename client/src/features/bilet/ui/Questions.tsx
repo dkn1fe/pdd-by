@@ -7,9 +7,10 @@ import { HelpForBilet } from "./HelpForBilet";
 
 interface QuestionsProps {
   questions: any[];
+  status:string
 }
 
-export const Questions: FC<QuestionsProps> = ({ questions}) => {
+export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
   const { activeQuestions, writeQuestions, dontWriteQuestions, statusQuestions, choosedMode } = useSelector((state: RootState) => state.biletSlice);
   const [isOpenHelpForBilet, setIsOpenHelpForBilet] = useState(false);
   const [activeAnswer,setActiveAnswer] = useState('')
@@ -23,6 +24,7 @@ export const Questions: FC<QuestionsProps> = ({ questions}) => {
 
   const currentQuestion = questions[activeQuestions];
 
+  
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       const key = e.key;
@@ -39,12 +41,12 @@ export const Questions: FC<QuestionsProps> = ({ questions}) => {
           setShowAnswer(true);
           setIsOpenHelpForBilet(false);
 
-          if (choosedMode.slice(0, 1) === 'Г') {
+          if (status === 'training') {
             if (Number(activeAnswer) === currentQuestion.answer) {
               setIsResultDisplayed(true);
               dispatch(onHandleWriteQuestions(activeQuestions));
             } else {
-              setShowAnswer(true);
+              setIsResultDisplayed(true);
             }
           } else {
             setIsResultDisplayed(true);
@@ -52,7 +54,7 @@ export const Questions: FC<QuestionsProps> = ({ questions}) => {
               dispatch(onHandleWriteQuestions(activeQuestions));
             } else {
               dispatch(onHandleDontWriteQuestions(activeQuestions));
-              dispatch(handleChangeYourAnswer(activeAnswer))
+              dispatch(handleChangeYourAnswer(activeAnswer));
             }
           }
         } else if (key === 'X' || key === 'x' || key === 'х' || key === 'Х') {
@@ -60,14 +62,20 @@ export const Questions: FC<QuestionsProps> = ({ questions}) => {
         }
       } else {
         if (key === 'Enter') {
-          setIsResultDisplayed(false);
-          setActiveAnswer('');
-          setShowAnswer(false);
-          getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
+          if (status === 'training' && Number(activeAnswer) !== currentQuestion.answer) {
+            setIsResultDisplayed(false);
+            setActiveAnswer('');
+            setShowAnswer(false);
+          } else {
+            setIsResultDisplayed(false);
+            setActiveAnswer('');
+            setShowAnswer(false);
+            getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
+          }
         }
       }
     },
-    [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode]
+    [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode, status]
   );
 
   useEffect(() => {

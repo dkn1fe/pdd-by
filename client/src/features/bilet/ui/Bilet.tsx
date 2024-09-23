@@ -28,7 +28,7 @@ export const Bilet = () => {
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
     const status = window.location.pathname.slice(1)
-    console.log(yoursUnWriteAnswers)
+    console.log(questionsForBilet)
 
 
     useEffect(() => {
@@ -86,7 +86,7 @@ export const Bilet = () => {
                         )}
 
                         <div className="w-full overflowY-auto h-[625px] bg-[white]">
-                            <Questions questions={questionsForBilet} />
+                            <Questions status={status} questions={questionsForBilet} />
                         </div>
                         <div className="w-full h-[50px] bg-gray-200">
                             <Keyboard />
@@ -103,7 +103,7 @@ export const Bilet = () => {
                                 openResult={openResult}
                             />
                         )}
-                        {choosedMode.slice(0,1) === 'Г' && remainsQuestion === 0 && (
+                        {choosedMode.length <= 8 && remainsQuestion === 0 && (
                             <Result
                                 choosedMode={choosedMode}
                                 result="success"
@@ -126,8 +126,10 @@ export const Bilet = () => {
                                 openResult={true}
                             />
                         )}
-                        {status === 'control' && resultStatus === 'controlWindow' && (
-                            <ControlWindow yoursUnWriteAnswers = {yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
+                        {status === 'control' && resultStatus === 'controlWindow' && yoursUnWriteAnswers.length !== 0 &&  (
+                            <>
+                                <ControlWindow yoursUnWriteAnswers={yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
+                            </>
                         )}
                     </>
                 )}

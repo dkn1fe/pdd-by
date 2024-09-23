@@ -46,11 +46,11 @@ export const WindowTable: FC<WindowTableProps> = ({ questions, unWriteQuestions,
                 </thead>
                 <tbody>
                     {windowTableList.map(({ id, bilet, numberTask, yourAnswer, rightAnswer }) => (
-                        <tr autoFocus onClick={() => setIsActiveIndex(id)} key={id} className={`bg-white ${isActiveIndex === id ? 'bg-blue-200' : ''}`}>
-                            <td className="border p-2 text-center">{bilet}</td>
-                            <td className="border p-2 text-center">{numberTask}</td>
-                            <td className="border p-2 text-center">{yourAnswer}</td>
-                            <td className="border p-2 text-center">{rightAnswer}</td>
+                        <tr autoFocus onClick={() => setIsActiveIndex(id)} key={id} className={`bg-white ${isActiveIndex === id ? 'bg-green-200' : ''}`}>
+                            <td className="border p-2 text-center">{bilet ?? '-'}</td>
+                            <td className="border p-2 text-center">{numberTask ?? '-'}</td>
+                            <td className="border p-2 text-center">{yourAnswer ?? '-'}</td>
+                            <td className="border p-2 text-center">{rightAnswer ?? '-'}</td>
                         </tr>
                     ))}
                 </tbody>

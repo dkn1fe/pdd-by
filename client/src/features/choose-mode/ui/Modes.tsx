@@ -30,6 +30,13 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
                 navigate(selectedItem.link);
                 dispatch(handleChooseMode(selectedItem.title));
             }
+            if(selectedItem && title === 'Контроль по тематическим билетам' || title === 'Тренировка по случайному билету'){
+                const link = title.startsWith('К') 
+                ? '/control' 
+                : '/training';
+                navigate(link)
+                dispatch(handleChooseMode(selectedItem.title))
+            }
         }
         if (event.key === 'Enter' && (activeMode === 3 || activeMode === 6)) {
             setIsOpenBiletWindow(true);
@@ -80,7 +87,7 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
                         ref={el => (modesElem.current[item.id] = el)}
                         className={`flex flex-col m-auto justify-center pt-2 mx-5 gap-5 cursor-pointer focus:outline-none 
                             ${title.slice(0, 1) === 'В' && item.id === 5 ? 'mt-10' : 'mt-2'} 
-                            ${title.slice(0, 1) === 'Т' ? 'pl-10 pt-4' : 'pl-16 '}
+                            ${title.slice(0, 1) === 'Т' || title.slice(0,1) === 'К' ? 'pl-10 pt-5' : 'pl-16 '}
                             ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`}
                     >
                         <h3 className={`text-left text-2xl ${activeMode === item.id ? 'text-black' : 'text-white'}`}>

@@ -8,6 +8,7 @@ import { AppDispatch } from "../../../app/store/store";
 import { handleChangeResultStatus } from "../../../app/store/biletSlice";
 import success from '../../../assets/bilets/success.png';
 import unsuccess from '../../../assets/bilets/unsuccess.png';
+import { useNavigate } from "react-router-dom";
 
 interface ResultProps {
   openResult: boolean;
@@ -36,10 +37,15 @@ export const Result: FC<ResultProps> = ({
 }) => {
 
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Enter') dispatch(handleChangeResultStatus('controlWindow'));
-  }, [dispatch])
+    if (e.key === 'Enter' && dontWriteQuestion.length >= 1) {
+      dispatch(handleChangeResultStatus('controlWindow')); 
+    } else{
+      navigate('/')
+    }
+    }, [dispatch])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
@@ -48,6 +54,7 @@ export const Result: FC<ResultProps> = ({
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [handleKeyDown])
+
   return (
     <div className="container flex flex-col justify-between">
       <div className="w-full m-auto bg-[#ebebeb] h-full relative flex flex-col justify-between">
@@ -86,7 +93,7 @@ export const Result: FC<ResultProps> = ({
               unWrite={dontWriteQuestion}
             />
           </div>
-          {status && status === 'control' && (
+          {status && status === 'control' && dontWriteQuestion.length >= 1 && (
             <div className="w-full h-[40px] bg-white border-t-2 border-gray-200 shadow-inner pl-3 pt-2">
               <h3 className="text-lg text-gray-600 font-medium">
                 Нажмите <span className="px-2 py-1 bg-gray-300 text-gray-800 rounded">Enter</span> чтобы продолжить

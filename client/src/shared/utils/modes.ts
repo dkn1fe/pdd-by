@@ -11,17 +11,17 @@ export const modes = [
 ]
 
 export const trainBiletMods = [
-    { id: 1, title: 'Глава 1-6', link: '/training' },
-    { id: 2, title: 'Дорожные знаки, разметка, Приложение 2,3', link: '/training' },
-    { id: 3, title: 'Главы 7-13, Приложение 1', link: '/training' },
-    { id: 4, title: 'Главы 8-12 и 19', link: '/training' },
-    { id: 5, title: 'Главы 14-18, 20-25', link: '/training' },
-    { id: 6, title: 'Глава 26, Приложение 4, 5', link: '/training' },
-    { id: 7, title: 'Ответственность. Безопасность. Медицина', link: '/training' },
+    { id: 1, title: 'Глава 1-6', link: '/training' || '/control' },
+    { id: 2, title: 'Дорожные знаки, разметка, Приложение 2,3', link: '/training' || '/control' },
+    { id: 3, title: 'Главы 7-13, Приложение 1', link: '/training' || '/control' },
+    { id: 4, title: 'Главы 8-12 и 19', link: '/training' || '/control'},
+    { id: 5, title: 'Главы 14-18, 20-25', link: '/training' || '/control'},
+    { id: 6, title: 'Глава 26, Приложение 4, 5', link: '/training' || '/control' },
+    { id: 7, title: 'Ответственность. Безопасность. Медицина', link: '/training' || '/control' },
 ]
 
 export const allGlavsMods = [
-    { id: 1, title: 'Глава 1', label: 'Общие положения', tasks: 6 },
+    { id: 1, title: 'Глава 1', label: 'Общие положения', tasks: 2 },
     { id: 2, title: 'Глава 2', label: 'Общие права и обязанности участников дорожного движения', tasks: 3 },
     { id: 3, title: 'Глава 3', label: 'Права и обязанности водителей', tasks: 1 },
     { id: 4, title: 'Глава 4', label: 'Права и обязанности пешеходов', tasks: 1 },
