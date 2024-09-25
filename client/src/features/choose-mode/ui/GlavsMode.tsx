@@ -1,4 +1,4 @@
-import { useEffect, useRef, FC } from "react";
+import { useEffect, useRef, FC, WheelEvent } from "react";
 import { allGlavsMods } from "../../../shared/utils/modes";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store/store";
@@ -16,7 +16,6 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
     const navigate = useNavigate();
 
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const firstElementRef = useRef<HTMLDivElement | null>(null); 
 
     const handleKeyPress = (event: { key: string }) => {
         if (event.key === 'ArrowDown' || event.key === 's' || event.key === 'S' || event.key === 'ы' || event.key === 'Ы') {
@@ -31,6 +30,14 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
                 dispatch(handleChooseMode(selectedItem.title));
                 navigate('/allGlavsTrain');
             }
+        }
+    };
+
+    const handleWheel = (event: WheelEvent) => {
+        if (event.deltaY > 0) {
+            setActiveMode(Math.min(activeMode + 1, allGlavsMods.length));
+        } else {
+            setActiveMode(Math.max(activeMode - 1, 1));
         }
     };
 
@@ -53,8 +60,8 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
     }, [activeMode]);
 
     useEffect(() => {
-        if (firstElementRef.current) {
-            firstElementRef.current.focus();
+        if (modesElem.current[activeMode]) {
+            modesElem.current[activeMode]?.focus();
         }
     }, [activeMode]);
 
@@ -67,18 +74,20 @@ export const GlavsMode: FC<GlavsModeProps> = ({ activeMode, setActiveMode }) => 
                     style={{
                         overflow: 'hidden',
                     }}
-                    tabIndex={0}
                     onKeyDown={handleKeyPress}
-                    onClick={() => firstElementRef.current?.focus()} 
+                    onClick={() => modesElem.current[activeMode]?.focus()} 
+                    onWheel={handleWheel}
                 >
                     {allGlavsMods.map(item => (
                         <div
-                            ref={item.id === 1 ? firstElementRef : el => (modesElem.current[item.id] = el)}
+                            ref={el => modesElem.current[item.id] = el}
                             onClick={() => setActiveMode(item.id)}
                             key={item.id}
+                            tabIndex={0}
+                            autoFocus = {item.id === 1}
                             id={`glav-${item.id}`}
                             className={`flex flex-col justify-center pl-16 pt-4 mx-5 cursor-pointer 
-              ${activeMode === item.id ? 'bg-white bg-opacity-50 h-[45px] text-center pb-3 relative top-2' : 'w-full'}`}>
+              ${activeMode === item.id ? 'bg-white bg-opacity-50 focus:outline-none h-[45px] text-center pb-3 relative top-2' : 'w-full'}`}>
                             <h3 className={`text-left text-2xl uppercase ${activeMode === item.id ? 'text-black' : 'text-white'}`}>
                                 {item.title}
                             </h3>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { handleChooseMode } from "../../../app/store/biletSlice"
 
 export const Keyboard = () => {
-    const { choosedMode,resultStatus} = useSelector((state: RootState) => state.biletSlice)
+    const { choosedMode} = useSelector((state: RootState) => state.biletSlice)
     const [active, setActive] = useState(true)
     const intervalActive = useRef<NodeJS.Timeout | null>(null) 
     const navigate = useNavigate()
@@ -59,7 +59,7 @@ export const Keyboard = () => {
                 </div>
             </div>
             {(choosedMode.slice(0, 1) === 'Т' || choosedMode.slice(0,1) === 'К') && (
-                <div className="flex items-center -pt-4 justify-center">
+                <div className="flex items-center -pt-4 gap-5 justify-center">
                     <span className={`font-bold text-2xl text-white ${!active && 'opacity-0'}`}>ESC</span>
                     <span className="text-white">-</span>
                     <span className="text-white">ВЕРНУТЬСЯ НАЗАД</span>

@@ -1,23 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store/store";
 import { FC, useEffect, useState, useCallback } from "react";
-import { onHandleWriteQuestions, onHandleDontWriteQuestions,handleChangeYourAnswer} from "../../../app/store/biletSlice";
+import { onHandleWriteQuestions, onHandleDontWriteQuestions, handleChangeYourAnswer } from "../../../app/store/biletSlice";
 import { getLastOrFirst } from "../../../shared/utils/utils";
 import { HelpForBilet } from "./HelpForBilet";
 
 interface QuestionsProps {
   questions: any[];
-  status:string
+  status: string,
+  toolsForBilet: { showAnswer: boolean, isOpenHelpForBilet: boolean }
+  setToolsForBilet: any
 }
 
-export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
+export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet, setToolsForBilet }) => {
   const { activeQuestions, writeQuestions, dontWriteQuestions, statusQuestions, choosedMode } = useSelector((state: RootState) => state.biletSlice);
-  const [isOpenHelpForBilet, setIsOpenHelpForBilet] = useState(false);
-  const [activeAnswer,setActiveAnswer] = useState('')
-  const [showAnswer, setShowAnswer] = useState(false);
+  const [activeAnswer, setActiveAnswer] = useState('');
   const [isResultDisplayed, setIsResultDisplayed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  console.log(status)
 
   if (choosedMode.slice(0, 1) !== 'Г') {
     questions[10] = questions[0];
@@ -25,23 +24,24 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
 
   const currentQuestion = questions[activeQuestions];
 
-  
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       const key = e.key;
-  
+
+      if ((toolsForBilet.isOpenHelpForBilet && key !== 'Backspace') || (toolsForBilet.showAnswer && key !== 'Enter')) {
+        return;
+      }
+
       if (!isResultDisplayed) {
         if (key >= '1' && key <= currentQuestion?.options.length.toString()) {
           setActiveAnswer(key);
-          setShowAnswer(false);
+          setToolsForBilet({ ...toolsForBilet, showAnswer: false })
         } else if (key === 'Backspace') {
           setActiveAnswer('');
-          setShowAnswer(false);
-          setIsOpenHelpForBilet(false);
+          setToolsForBilet({ showAnswer: false, isOpenHelpForBilet: false })
         } else if (key === 'Enter' && activeAnswer !== '') {
-          setShowAnswer(true);
-          setIsOpenHelpForBilet(false);
-  
+          setToolsForBilet({ showAnswer: true, isOpenHelpForBilet: false })
+
           if (status === 'training' || status === 'allGlavsTrain') {
             if (Number(activeAnswer) === currentQuestion.answer) {
               setIsResultDisplayed(true);
@@ -59,26 +59,25 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
             }
           }
         } else if (key === 'X' || key === 'x' || key === 'х' || key === 'Х') {
-          setIsOpenHelpForBilet(true);
+          setToolsForBilet({ ...toolsForBilet, isOpenHelpForBilet: true })
         }
       } else {
         if (key === 'Enter') {
           if ((status === 'training' || status === 'allGlavsTrain') && Number(activeAnswer) !== currentQuestion.answer) {
             setIsResultDisplayed(false);
             setActiveAnswer('');
-            setShowAnswer(false);
+            setToolsForBilet({ ...toolsForBilet, showAnswer: false })
           } else {
             setIsResultDisplayed(false);
             setActiveAnswer('');
-            setShowAnswer(false);
+            setToolsForBilet({ ...toolsForBilet, showAnswer: false })
             getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
           }
         }
       }
     },
-    [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode, status]
+    [activeAnswer, isResultDisplayed, activeQuestions, questions, writeQuestions, dontWriteQuestions, choosedMode, status, toolsForBilet.showAnswer, toolsForBilet.isOpenHelpForBilet]
   );
-  
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -88,6 +87,12 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
     };
   }, [handleKeyDown]);
 
+  const handleOptionClick = (index: string) => {
+    if (!toolsForBilet.showAnswer && !toolsForBilet.isOpenHelpForBilet) {
+      setActiveAnswer(index + 1);
+    }
+  };
+
   return (
     <>
       {statusQuestions === 'idle' && (
@@ -96,7 +101,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
             <h3 className="text-xl">{currentQuestion?.question}</h3>
           </div>
 
-          {isOpenHelpForBilet && (
+          {toolsForBilet.isOpenHelpForBilet && (
             <HelpForBilet activeQuestion={activeQuestions} questions={questions} />
           )}
 
@@ -113,8 +118,8 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
               <div className="w-1/2 p-3">
                 <ol className="list-decimal pl-5">
                   {currentQuestion?.options?.map((item, index) => (
-                    <li key={index + 1} className="mb-1">
-                      <p className="text-lg pt-2">{item}</p>
+                    <li key={index + 1} className={`mb-1 cursor-pointer ${activeAnswer === index + 1 ? '[text-decoration:underline]' : ''}`}>
+                      <p onClick={() => handleOptionClick(index)} className="text-lg pt-2">{item}</p>
                     </li>
                   ))}
                 </ol>
@@ -126,8 +131,8 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
             <div className="p-3 border-b border-gray-400">
               <ol className="list-decimal pl-5">
                 {currentQuestion?.options?.map((item, index) => (
-                  <li key={index + 1} className="mb-1">
-                    <p className="text-lg">{item}</p>
+                  <li key={index + 1} className={`mb-1 cursor-pointer ${activeAnswer === index + 1 ? '[text-decoration:underline]' : ''}`}>
+                    <p onClick={() => handleOptionClick(index)} className="text-lg pt-2">{item}</p>
                   </li>
                 ))}
               </ol>
@@ -135,19 +140,18 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
           )}
 
           <div
-            className={`flex justify-center mt-5 py-5 relative ${
-              showAnswer
-                ? Number(activeAnswer) === currentQuestion.answer
-                  ? 'bg-[#89cc92]'
-                  : 'bg-[#eb8989]'
-                : 'bg-white'
-            }`}
+            className={`flex justify-center mt-5 py-5 relative ${toolsForBilet.showAnswer
+              ? Number(activeAnswer) === currentQuestion.answer
+                ? 'bg-[#89cc92]'
+                : 'bg-[#eb8989]'
+              : 'bg-white'
+              }`}
           >
             <div className="text-center">
               <h2 className="text-2xl">
                 ВАШ ОТВЕТ: <span className="pl-2">{activeAnswer}</span>
               </h2>
-              {showAnswer && (
+              {toolsForBilet.showAnswer && (
                 <>
                   <span className="text-5xl text-white font-bold mt-2 block">
                     {Number(activeAnswer) === currentQuestion.answer
@@ -159,7 +163,7 @@ export const Questions: FC<QuestionsProps> = ({ questions,status}) => {
                     onClick={() => {
                       setIsResultDisplayed(false);
                       setActiveAnswer('');
-                      setShowAnswer(false);
+                      setToolsForBilet({...toolsForBilet,showAnswer:false})
                       getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
                     }}
                   >

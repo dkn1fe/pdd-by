@@ -22,13 +22,14 @@ export const Bilet = () => {
         resultStatus,
         yoursUnWriteAnswers
     } = useSelector((state: RootState) => state.biletSlice);
+    const status = window.location.pathname.slice(1)
     const [openResult, setOpenResult] = useState(false);
     const [resultType, setResultType] = useState('');
+    const [toolsForSettingsBilet,setToolsForSettingsBilet] = useState({showAnswer:false,isOpenHelpForBilet:false})
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
-    const status = window.location.pathname.slice(1)
-    console.log(questionsForBilet)
+    console.log(toolsForSettingsBilet)
 
 
     useEffect(() => {
@@ -77,7 +78,7 @@ export const Bilet = () => {
                         </div>
                         {choosedMode.slice(0, 1) !== 'Г' ? (
                             <div className="w-full h-[40px] bg-[#e0e0e0] border-b border-gray-400">
-                                <QuestionsList />
+                                <QuestionsList toolsForSettingBilet={toolsForSettingsBilet} />
                             </div>
                         ) : (
                             <div className="flex justify-end h-[40px] bg-[#e0e0e0] border-b border-gray-400">
@@ -86,7 +87,7 @@ export const Bilet = () => {
                         )}
 
                         <div className="w-full overflowY-auto h-[625px] bg-[white]">
-                            <Questions status={status} questions={questionsForBilet} />
+                            <Questions toolsForBilet={toolsForSettingsBilet} setToolsForBilet={setToolsForSettingsBilet} status={status} questions={questionsForBilet} />
                         </div>
                         <div className="w-full h-[50px] bg-gray-200">
                             <Keyboard />
