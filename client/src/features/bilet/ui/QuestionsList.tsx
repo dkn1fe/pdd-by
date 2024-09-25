@@ -1,16 +1,25 @@
-import { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../app/store/store";
 import { onHandleActiveQuestion } from "../../../app/store/biletSlice";
 import { RootState } from "../../../app/store/store";
 
-export const QuestionsList = () => {
+interface QuestionsListProps {
+    toolsForSettingBilet: { showAnswer: boolean, isOpenHelpForBilet: boolean }
+}
+
+export const QuestionsList: FC<QuestionsListProps> = ({ toolsForSettingBilet }) => {
     const { activeQuestions, writeQuestions, dontWriteQuestions } = useSelector((state: RootState) => state.biletSlice);
     const dispatch = useDispatch<AppDispatch>();
     const questionElems = useRef<(HTMLDivElement | null)[]>([]);
 
     const handleActiveQuestion = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        let nextQuestion:number = activeQuestions;
+        let nextQuestion: number = activeQuestions;
+
+ 
+        if(toolsForSettingBilet.showAnswer || toolsForSettingBilet.isOpenHelpForBilet){
+            return
+        }
 
         if (event.key === 'ArrowRight') {
             nextQuestion = activeQuestions + 1;
@@ -30,6 +39,11 @@ export const QuestionsList = () => {
     };
 
     const handleClickActiveQuestion = (item: number) => {
+
+        if (toolsForSettingBilet.showAnswer || toolsForSettingBilet.isOpenHelpForBilet) {
+            return;
+        }
+
         if (!writeQuestions.includes(item) && !dontWriteQuestions.includes(item)) {
             dispatch(onHandleActiveQuestion(item));
         }
@@ -43,20 +57,21 @@ export const QuestionsList = () => {
 
     useEffect(() => {
         if (activeQuestions >= 1 && activeQuestions <= 10) {
-            questionElems.current[activeQuestions]?.focus();
-        }
-    }, [activeQuestions]);
+          questionElems.current[activeQuestions]?.focus();
+        } 
+      }, [activeQuestions]);
 
     return (
-        <div className="flex justify-center gap-2 items-center" onKeyDown={handleActiveQuestion} tabIndex={0}>
+        <div className="flex justify-center focus:outline-none gap-2 items-center" onKeyDown={handleActiveQuestion} tabIndex={0}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                <div 
+                <div
                     onClick={() => handleClickActiveQuestion(item)}
                     ref={el => (questionElems.current[item] = el)}
                     key={item}
-                    className={`w-[50px] h-[40px] cursor-pointer bg-[#E9E9E9] border focus:outline-none border-black ${
-                        writeQuestions.includes(item) ? 'bg-[green] text-white' : '' || dontWriteQuestions.includes(item) ? 'bg-[red] text-white' : ''
-                    } ${item === activeQuestions ? 'bg-blue-300' : ''}`}>
+                    tabIndex={0}
+                    autoFocus={item === 1}
+                    className={`w-[50px] h-[40px]  cursor-pointer bg-[#E9E9E9] border focus:outline-none border-black ${writeQuestions.includes(item) ? 'bg-[green] text-white' : '' || dontWriteQuestions.includes(item) ? 'bg-[red] text-white' : ''
+                        } ${item === activeQuestions ? 'bg-blue-300' : ''}`}>
                     <div className="flex justify-center items-center">
                         <p className="text-2xl pt-1">{item}</p>
                     </div>

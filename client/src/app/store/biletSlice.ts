@@ -48,7 +48,6 @@ export const biletSlice = createSlice({
         state.writeQuestions = []
         state.dontWriteQuestions = []
         state.yoursUnWriteAnswers = []
-        state.choosedBilet = 0
       },
       handleChangeResultStatus:(state,action)=>{
         state.resultStatus = action.payload
