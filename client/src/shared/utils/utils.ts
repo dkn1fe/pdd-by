@@ -44,31 +44,31 @@ export const onGetBilet = (mode: string, questions: any[], choosedBilet: number)
         case mode === 'Глава 1-6':
             filteredQuestions = [...questions]
                 .filter(item => {
-                    const glavaNumber = parseInt(item.glava.replace(/\D/g, ''));
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
                     return glavaNumber >= 1 && glavaNumber <= 6;
                 });
-            return filteredQuestions; 
+            return filteredQuestions;
 
         case mode === 'Главы 7-13, Приложение 1':
             filteredQuestions = [...questions]
                 .filter(item => {
-                    const glavaNumber = parseInt(item.glava.replace(/\D/g, ''));
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
                     return glavaNumber >= 7 && glavaNumber <= 13;
                 });
-            return filteredQuestions; 
+            return filteredQuestions;
 
         case mode === 'Главы 8-12 и 19':
             filteredQuestions = [...questions]
                 .filter(item => {
-                    const glavaNumber = parseInt(item.glava.replace(/\D/g, ''));
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
                     return (glavaNumber >= 8 && glavaNumber <= 12) || glavaNumber === 19;
                 });
-            return filteredQuestions; 
+            return filteredQuestions;
 
         case mode === 'Главы 14-18, 20-25':
             filteredQuestions = [...questions]
                 .filter(item => {
-                    const glavaNumber = parseInt(item.glava.replace(/\D/g, ''));
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
                     return (glavaNumber >= 14 && glavaNumber <= 18) || (glavaNumber >= 20 && glavaNumber <= 25);
                 });
             return filteredQuestions;
@@ -76,21 +76,37 @@ export const onGetBilet = (mode: string, questions: any[], choosedBilet: number)
         case mode === 'Глава 26, Приложение 4, 5':
             filteredQuestions = [...questions]
                 .filter(item => {
-                    const glavaNumber = parseInt(item.glava.replace(/\D/g, ''));
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
                     return glavaNumber === 26;
                 });
-            return filteredQuestions; 
+            return filteredQuestions;
+
+        case mode === 'Дорожные знаки, разметка, Приложение 2,3':
+            filteredQuestions = [...questions]
+                .filter(item => {
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
+                    return glavaNumber === 27;
+                });
+            return filteredQuestions;
+
+        case mode === 'Ответственность. Безопасность. Медицина':
+            filteredQuestions = [...questions]
+                .filter(item => {
+                    const glavaNumber = item.glava ? parseInt(item.glava.replace(/\D/g, '')) : 0;
+                    return glavaNumber === 28;
+                });
+            return filteredQuestions;
 
         case mode.slice(0, 1) === 'Г':
             filteredQuestions = questions.filter(item => item.glava === mode);
-            return filteredQuestions; 
+            return filteredQuestions;
 
         case mode === 'Тренировка по случайному билету' || mode === 'Контроль по случайному билету':
             filteredQuestions = [...questions]
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 10)
                 .sort((a, b) => a.id - b.id);
-            return filteredQuestions; 
+            return filteredQuestions;
 
         case mode === 'Тренировка по билету N' || mode === 'Контроль по билету N':
             filteredQuestions = questions.filter(item => item.ticket_number === choosedBilet);
@@ -100,4 +116,3 @@ export const onGetBilet = (mode: string, questions: any[], choosedBilet: number)
             return [];
     }
 };
-
