@@ -29,7 +29,7 @@ export const Bilet = () => {
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
-    console.log(toolsForSettingsBilet)
+    console.log(choosedMode)
 
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export const Bilet = () => {
             setOpenResult(true);
             setResultType('unsuccess');
         }
-        if (choosedMode.slice(0, 1) === 'Г' && remainsQuestion === 0 && writeQuestions.length >= 1) {
+        if (choosedMode.length <= 8 && remainsQuestion === 0 && writeQuestions.length >= 1) {
             setOpenResult(true)
         }
     }, [writeQuestions, dontWriteQuestions, remainsQuestion, choosedMode]);
@@ -76,7 +76,7 @@ export const Bilet = () => {
                         <div className="w-full h-[50px] bg-[#cccccc]">
                             <Timer openResult={openResult} />
                         </div>
-                        {choosedMode.slice(0, 1) !== 'Г' ? (
+                        {choosedMode.length > 8 ? (
                             <div className="w-full h-[40px] bg-[#e0e0e0] border-b border-gray-400">
                                 <QuestionsList toolsForSettingBilet={toolsForSettingsBilet} />
                             </div>

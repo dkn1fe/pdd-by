@@ -18,9 +18,10 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
   const [isResultDisplayed, setIsResultDisplayed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  if (choosedMode.slice(0, 1) !== 'Г') {
+
+  if (choosedMode.slice(0,1) !== 'Г' ) {
     questions[10] = questions[0];
-  }
+  } 
 
   const currentQuestion = questions[activeQuestions];
 
