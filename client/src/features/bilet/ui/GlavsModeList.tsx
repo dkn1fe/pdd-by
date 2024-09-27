@@ -47,7 +47,10 @@ export const GlavsModeList: FC<GlavsModeListProps> = ({ questionLength, currentQ
     }, [currentQuestion, questionLength]);
 
     return (
-        <div
+        <div className="flex text-lg items-center gap-5">
+            <p className="font-meduim">Текущий Вопрос / Осталось Вопросов / Всего</p>
+            
+            <div
             className="w-[100px] h-[30px] mt-1 mr-3 bg-gray-200 border border-black"
             onKeyDown={handleKeyDown}
             tabIndex={0}
@@ -59,5 +62,7 @@ export const GlavsModeList: FC<GlavsModeListProps> = ({ questionLength, currentQ
                 <h3>{questionLength}</h3>
             </div>
         </div>
+        </div>
+
     );
 };

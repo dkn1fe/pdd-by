@@ -25,11 +25,11 @@ export const Bilet = () => {
     const status = window.location.pathname.slice(1)
     const [openResult, setOpenResult] = useState(false);
     const [resultType, setResultType] = useState('');
-    const [toolsForSettingsBilet,setToolsForSettingsBilet] = useState({showAnswer:false,isOpenHelpForBilet:false})
+    const [timeWithExitExam, setTimeWithExitExam] = useState({ time: 15 * 60, exit: false })
+    const [toolsForSettingsBilet, setToolsForSettingsBilet] = useState({ showAnswer: false, isOpenHelpForBilet: false })
     const [remainsQuestion, setRemainsQuestion] = useState(0);
     const [questionsForBilet, setQuestionForBilet] = useState<any[]>([]);
     const dispatch = useDispatch<AppDispatch>();
-    console.log(choosedMode)
 
 
     useEffect(() => {
@@ -41,6 +41,7 @@ export const Bilet = () => {
         if (choosedMode && questions.length > 0) {
             setOpenResult(false);
             setQuestionForBilet(onGetBilet(choosedMode, questions, choosedBilet));
+            setTimeWithExitExam({time:15 * 60,exit:false})
             dispatch(handleChangeResultStatus(''))
             dispatch(onHandleActiveQuestion(0));
             dispatch(clearQuestions());
@@ -66,7 +67,10 @@ export const Bilet = () => {
         if (choosedMode.length <= 8 && remainsQuestion === 0 && writeQuestions.length >= 1) {
             setOpenResult(true)
         }
-    }, [writeQuestions, dontWriteQuestions, remainsQuestion, choosedMode]);
+        if (timeWithExitExam.time === 0 || timeWithExitExam.exit) {
+            setOpenResult(true)
+        }
+    }, [writeQuestions, dontWriteQuestions, remainsQuestion, choosedMode,timeWithExitExam]);
 
     return (
         <div className="container">
@@ -74,7 +78,7 @@ export const Bilet = () => {
                 {!openResult && (
                     <>
                         <div className="w-full h-[50px] bg-[#cccccc]">
-                            <Timer openResult={openResult} />
+                            <Timer setTimeWithExitExam={setTimeWithExitExam} timeWithExitExam={timeWithExitExam} openResult={openResult} status={status} />
                         </div>
                         {choosedMode.length > 8 ? (
                             <div className="w-full h-[40px] bg-[#e0e0e0] border-b border-gray-400">
@@ -96,12 +100,20 @@ export const Bilet = () => {
                 )}
                 {openResult && (
                     <>
-                        {status === 'training' && (
+                        {status === 'training' && !timeWithExitExam.exit && timeWithExitExam.time !== 0 && (
                             <Result
                                 result={resultType}
                                 writeQuestion={writeQuestions}
                                 dontWriteQuestion={dontWriteQuestions}
                                 openResult={openResult}
+                            />
+                        )}
+                        {timeWithExitExam.time === 0 || timeWithExitExam.exit && (
+                            <Result
+                                result="unsuccess"
+                                writeQuestion={writeQuestions}
+                                dontWriteQuestion={dontWriteQuestions}
+                                openResult={true}
                             />
                         )}
                         {choosedMode.length <= 8 && remainsQuestion === 0 && (
@@ -117,7 +129,8 @@ export const Bilet = () => {
                                 setRemains={setRemainsQuestion}
                             />
                         )}
-                        {resultStatus !== 'controlWindow' && status === 'control' && (
+                        {resultStatus !== 'controlWindow' && status === 'control'
+                        && !timeWithExitExam.exit && timeWithExitExam.time !== 0 &&  (
                             <Result
                                 choosedMode={choosedMode}
                                 result={resultType}
@@ -127,7 +140,7 @@ export const Bilet = () => {
                                 openResult={true}
                             />
                         )}
-                        {status === 'control' && resultStatus === 'controlWindow' && yoursUnWriteAnswers.length !== 0 &&  (
+                        {status === 'control' && resultStatus === 'controlWindow' && yoursUnWriteAnswers.length !== 0 && (
                             <>
                                 <ControlWindow yoursUnWriteAnswers={yoursUnWriteAnswers} questions={questionsForBilet} choosedBilet={choosedBilet} mode={choosedMode} writeQuestions={writeQuestions} unWriteQuestions={dontWriteQuestions} />
                             </>
