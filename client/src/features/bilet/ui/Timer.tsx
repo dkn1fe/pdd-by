@@ -1,6 +1,7 @@
 import { useEffect, FC } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store/store";
+import { time } from "console";
 
 interface TimerProps {
     openResult: boolean;
@@ -42,12 +43,14 @@ export const Timer: FC<TimerProps> = ({ openResult, status, timeWithExitExam, se
                 </div>
             </div>
             <div className="text-left">
+                {timeWithExitExam && !timeWithExitExam.exit && (
                 <button
                     className="bg-gray-100 bg-gradient-to-t from-gray-200 to-transparent border border-solid border-black text-black py-1 px-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
                     onClick={() => setTimeWithExitExam({ ...timeWithExitExam, exit: true })}
                 >
                     Завершить экзамен
                 </button>
+                )}
             </div>
         </div>
     );
