@@ -6,16 +6,15 @@ export const modes = [
     { id: 4, title: 'Тренировка по случайному билету', link: '/training' },
     { id: 5, title: 'Контроль по тематическим билетам', link: '/controlTemBilet' },
     { id: 6, title: 'Контроль по билету N', link: '/' },
-    { id: 7, title: 'Контроль по случайному билету x10', link: '/control' },
-    { id: 8, title: 'Контроль по случайному билету', link: '/control' },
+    { id: 7, title: 'Контроль по случайному билету', link: '/control' },
 ]
 
 export const trainBiletMods = [
     { id: 1, title: 'Глава 1-6', link: '/training' || '/control' },
     { id: 2, title: 'Дорожные знаки, разметка, Приложение 2,3', link: '/training' || '/control' },
     { id: 3, title: 'Главы 7-13, Приложение 1', link: '/training' || '/control' },
-    { id: 4, title: 'Главы 8-12 и 19', link: '/training' || '/control'},
-    { id: 5, title: 'Главы 14-18, 20-25', link: '/training' || '/control'},
+    { id: 4, title: 'Главы 8-12 и 19', link: '/training' || '/control' },
+    { id: 5, title: 'Главы 14-18, 20-25', link: '/training' || '/control' },
     { id: 6, title: 'Глава 26, Приложение 4, 5', link: '/training' || '/control' },
     { id: 7, title: 'Ответственность. Безопасность. Медицина', link: '/training' || '/control' },
 ]
