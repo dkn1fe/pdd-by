@@ -3,13 +3,14 @@ import { AppDispatch, RootState } from "../../../app/store/store";
 import { FC, useEffect, useState, useCallback } from "react";
 import { onHandleWriteQuestions, onHandleDontWriteQuestions, handleChangeYourAnswer } from "../../../app/store/biletSlice";
 import { getLastOrFirst } from "../../../shared/utils/utils";
+import { QuestionType } from "../../../entities/questionType/QuestionType";
 import { HelpForBilet } from "./HelpForBilet";
 
 interface QuestionsProps {
-  questions: any[];
-  status: string,
-  toolsForBilet: { showAnswer: boolean, isOpenHelpForBilet: boolean }
-  setToolsForBilet: any
+  questions: QuestionType[];
+  status: string;
+  toolsForBilet: { showAnswer: boolean, isOpenHelpForBilet: boolean };
+  setToolsForBilet: (state: { showAnswer: boolean, isOpenHelpForBilet: boolean }) => void;
 }
 
 export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet, setToolsForBilet }) => {
@@ -18,10 +19,9 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
   const [isResultDisplayed, setIsResultDisplayed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-
-  if (choosedMode.slice(0,1) !== 'Г' ) {
+  if (choosedMode.slice(0, 1) !== 'Г') {
     questions[10] = questions[0];
-  } 
+  }
 
   const currentQuestion = questions[activeQuestions];
 
@@ -36,12 +36,12 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
       if (!isResultDisplayed) {
         if (key >= '1' && key <= currentQuestion?.options.length.toString()) {
           setActiveAnswer(key);
-          setToolsForBilet({ ...toolsForBilet, showAnswer: false })
+          setToolsForBilet({ ...toolsForBilet, showAnswer: false });
         } else if (key === 'Backspace') {
           setActiveAnswer('');
-          setToolsForBilet({ showAnswer: false, isOpenHelpForBilet: false })
+          setToolsForBilet({ showAnswer: false, isOpenHelpForBilet: false });
         } else if (key === 'Enter' && activeAnswer !== '') {
-          setToolsForBilet({ showAnswer: true, isOpenHelpForBilet: false })
+          setToolsForBilet({ showAnswer: true, isOpenHelpForBilet: false });
 
           if (status === 'training' || status === 'allGlavsTrain') {
             if (Number(activeAnswer) === currentQuestion.answer) {
@@ -60,18 +60,18 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
             }
           }
         } else if (key === 'X' || key === 'x' || key === 'х' || key === 'Х') {
-          setToolsForBilet({ ...toolsForBilet, isOpenHelpForBilet: true })
+          setToolsForBilet({ ...toolsForBilet, isOpenHelpForBilet: true });
         }
       } else {
         if (key === 'Enter') {
           if ((status === 'training' || status === 'allGlavsTrain') && Number(activeAnswer) !== currentQuestion.answer) {
             setIsResultDisplayed(false);
             setActiveAnswer('');
-            setToolsForBilet({ ...toolsForBilet, showAnswer: false })
+            setToolsForBilet({ ...toolsForBilet, showAnswer: false });
           } else {
             setIsResultDisplayed(false);
             setActiveAnswer('');
-            setToolsForBilet({ ...toolsForBilet, showAnswer: false })
+            setToolsForBilet({ ...toolsForBilet, showAnswer: false });
             getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
           }
         }
@@ -88,9 +88,9 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
     };
   }, [handleKeyDown]);
 
-  const handleOptionClick = (index: string) => {
+  const handleOptionClick = (index: number) => {
     if (!toolsForBilet.showAnswer && !toolsForBilet.isOpenHelpForBilet) {
-      setActiveAnswer(index + 1);
+      setActiveAnswer(index.toString() + 1);
     }
   };
 
@@ -112,14 +112,14 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
                 <img
                   src={currentQuestion?.image}
                   alt="question illustration"
-                  className="max-w-full max-h-[400px] object-cover"
+                  className="max-w-full h-[340px]"
                 />
               </div>
               <div className="border-l border-gray-300" />
               <div className="w-1/2 p-3">
                 <ol className="list-decimal pl-5">
                   {currentQuestion?.options?.map((item, index) => (
-                    <li key={index + 1} className={`mb-1 cursor-pointer ${activeAnswer === index + 1 ? '[text-decoration:underline]' : ''}`}>
+                    <li key={index + 1} className={`mb-1 cursor-pointer ${activeAnswer === index.toString() + 1 ? '[text-decoration:underline]' : ''}`}>
                       <p onClick={() => handleOptionClick(index)} className="text-lg pt-2">{item}</p>
                     </li>
                   ))}
@@ -129,14 +129,20 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
           )}
 
           {!currentQuestion?.image && (
-            <div className="p-3 border-b border-gray-400">
-              <ol className="list-decimal pl-5">
-                {currentQuestion?.options?.map((item, index) => (
-                  <li key={index + 1} className={`mb-1 cursor-pointer ${activeAnswer === index + 1 ? '[text-decoration:underline]' : ''}`}>
-                    <p onClick={() => handleOptionClick(index)} className="text-lg pt-2">{item}</p>
-                  </li>
-                ))}
-              </ol>
+            <div className="relative border-b border-gray-400 p-3 flex gap-2">
+              <div className="w-[400px] h-[340px] bg-white relative">
+                <div className="absolute left-3 inset-0 bg-gradient-to-t from-gray-400 to-transparent opacity-40"></div>
+                <h3 className="text-2xl text-black opacity-80 z-10 flex justify-center items-center h-full">Вопрос без картинки</h3>
+              </div>
+              <div className="p-3">
+                <ol className="list-decimal pl-5">
+                  {currentQuestion?.options?.map((item, index) => (
+                    <li key={index + 1} className={`mb-1 cursor-pointer text-black text-lg ${activeAnswer === index.toString() + 1 ? '[text-decoration:underline]' : ''}`}>
+                      <p onClick={() => handleOptionClick(index)} className="text-lg pt-2">{item}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
           )}
 
@@ -164,7 +170,7 @@ export const Questions: FC<QuestionsProps> = ({ questions, status, toolsForBilet
                     onClick={() => {
                       setIsResultDisplayed(false);
                       setActiveAnswer('');
-                      setToolsForBilet({...toolsForBilet,showAnswer:false})
+                      setToolsForBilet({ ...toolsForBilet, showAnswer: false });
                       getLastOrFirst(questions, activeQuestions, writeQuestions, dontWriteQuestions, dispatch);
                     }}
                   >
