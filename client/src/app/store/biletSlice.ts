@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { onGetQuestions } from "../../shared/api/questionsApi";
+import { QuestionType } from "../../entities/questionType/QuestionType";
 
 interface InitialStateType{
    choosedMode:string,
    activeQuestions:number,
    writeQuestions:number[],
    dontWriteQuestions:number[]
-   questions:any[]
+   questions:QuestionType[]
    statusQuestions:'idle' | 'loading'
    resultStatus:'controlWindow' | 'result' | ''
    yoursUnWriteAnswers:number[]

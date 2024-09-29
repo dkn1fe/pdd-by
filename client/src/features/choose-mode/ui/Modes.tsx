@@ -74,7 +74,7 @@ export const Modes: FC<ModesProps> = ({ modes, title }) => {
             {isOpenBiletWindow && (
                 <ModalBilet />
             )}
-            <div className={`w-full ${title.slice(0, 1) === 'Т' || title.slice(0,1) === 'К' ? 'h-[430px]' : 'h-[390px]'} mt-2 bg-[#0578cc]`}>
+            <div className={`w-full ${title.slice(0, 1) === 'Т' || title.slice(0,1) === 'К' ? 'h-[430px]' : 'h-[390px]'} mt-2 shadow-2xl bg-[#0578cc]`}>
                 {modes.map(item => (
                     <div
                         key={item.id}

@@ -74,7 +74,7 @@ export const Bilet = () => {
 
     return (
         <div className="container">
-            <div className="w-full m-auto pt-20 h-[80%]">
+            <div className="w-full shadow-2xl m-auto mt-20 h-[80%]">
                 {!openResult && (
                     <>
                         <div className="w-full h-[50px] bg-[#cccccc]">
